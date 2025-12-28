@@ -1,0 +1,93 @@
+/*
+Theme Name:   Hope Redesign
+Author URI:   https://ecentervn.com/
+Author: hoalv12
+Template:     blankslate
+Text Domain:  blankslate
+Version:      4.0.0
+*/
+.bod__item-name strong {
+    font-size: 12px !important;
+}
+.box-banner1__item.box-banner1__item--full .box-wrapper-text h3 a {
+    color: #ffffff !important;
+    font-weight: 700;
+}
+
+.box-banner1__item .box-wrapper-text h3 a {
+    color: #333 !important;
+    font-weight: 700;
+}
+
+.box-banner1__item.box-banner1__item--full .btn.support-btn {
+    margin-bottom: 20px;
+}
+.activity-page .box-banner1__badge{
+    width: 60px !important;
+    height: 60px !important;
+}
+.box-banner1__badge{
+    padding:10px;
+}
+.tab-content h3 {
+    font-size: 36px;
+    color: #00adee;
+    font-weight: 700;
+    position: relative;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+    font-family: 'Roboto', sans-serif;
+}
+
+.color-blue {
+    color: #00adee !important
+}
+.des-pagedonggop{
+    max-width: 780px;
+}
+tr td.stt {
+    width: 140px;
+    text-align: left !important;
+    padding-left: 20px !important;
+}
+tr.date-title span{
+    border-bottom: 3px solid #00adee;
+    padding-bottom: 14px;
+}
+figcaption{
+    padding:0 !important;
+}
+figcaption p.Image{
+    font-size: 14px !important;
+    padding: 5px !important;
+}
+.gallery__footer {
+    width: 100%;
+}
+.phase-2 .wrap-activity .box-news .box-news-item-info p{
+    -webkit-line-clamp: 4 !important;
+}
+
+@media screen and (max-width: 1200px) and (min-width: 600px) {
+    .box-news-item-info{
+        float: left;
+        width: calc(100% - 395px);
+    }
+}
+/* .top_banner-text{
+    display: none;
+}
+@media (max-width: 767px){
+    body.home .top_banner {
+        background: url(assets/images/banner-home-330x198.png) no-repeat !important;
+        background-size: contain !important;
+    }
+    body.home .top_banner,
+    body.home .top_banner .container{
+        min-height: 252px !important;
+    }
+} */
+figure.wp-block-image > img  {
+    width: 100%;
+    height: auto;
+}

@@ -1,0 +1,587 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Con đường lây nhiễm & Dấu hiệu HIV</title>
+
+  <style>
+    :root{
+      --blue-main: #0047BA;
+      --blue-light:#EAF1FF;
+      --red-accent:#D62828;
+      --white:#FFFFFF;
+      --text-dark:#1F2937;
+      --text-gray:#4B5563;
+      --line:#E5E7EB;
+      --card:#FAFBFF;
+    }
+
+    *{ margin:0; padding:0; box-sizing:border-box; font-family: Arial, sans-serif; }
+    body{ background: var(--white); color: var(--text-dark); }
+
+   /* ===== HEADER (Long Châu) ===== */
+    header, header * { box-sizing: border-box; font-family: Arial, sans-serif; }
+
+    header {
+      display: flex;
+      align-items: center;
+      gap: 60px;
+      padding: 12px 40px;
+      border-bottom: 1px solid #e0e0e0;
+      background: #fff;
+      position: sticky;
+      top: 0;
+      z-index: 999;
+    }
+
+    .logo {
+      font-size: 22px;
+      font-weight: bold;
+      color: #0047ba;
+      white-space: nowrap;
+    }
+    .logo a { color: inherit; text-decoration: none; }
+    .logo img {
+      height: 50px;        /* adjust as needed */
+      width: auto;
+      display: block;
+    }
+    nav {
+      display: flex;
+      gap: 50px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .nav-item {
+      position: relative;
+      font-size: 18px;
+      color: #0047ba;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: 500;
+      white-space: nowrap;
+    }
+
+    .nav-item > a {
+      color: inherit;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .nav-item:hover > a { text-decoration: underline; }
+    .arrow { font-size: 10px; }
+
+    .dropdown {
+      position: absolute;
+      top: 120%;
+      left: 0;
+      background-color: #fff;
+      border: 1px solid #e0e0e0;
+      min-width: 190px;
+      display: none;
+      flex-direction: column;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+      z-index: 1000;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .dropdown a {
+      padding: 10px 14px;
+      text-decoration: none;
+      color: #0047ba;
+      font-size: 13px;
+      white-space: nowrap;
+    }
+
+    .dropdown a:hover { background-color: #f5f7fa; }
+    .nav-item:hover .dropdown { display: flex; }
+
+    @media (max-width: 900px) {
+      header { padding: 12px 16px; gap: 16px; }
+      nav {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        gap: 18px;
+        padding-bottom: 4px;
+        -webkit-overflow-scrolling: touch;
+      }
+    }
+    /* ===== FOOTER LIÊN HỆ (Long Châu style) ===== */
+.lc-footer{
+  margin-top: 28px;
+  background: #F7FAFF;
+  border-top: 1px solid var(--line);
+}
+
+.lc-footer__wrap{
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 22px 18px 14px;
+}
+
+.lc-footer__grid{
+  display: grid;
+  grid-template-columns: 1.3fr 1fr 1fr 1.2fr;
+  gap: 16px;
+  align-items: start;
+}
+
+.lc-footer__title{
+  font-size: 16px;
+  color: var(--blue-main);
+  margin-bottom: 10px;
+}
+
+.lc-footer__subtitle{
+  font-size: 14px;
+  color: var(--text-dark);
+  margin-bottom: 8px;
+  line-height: 1.35;
+}
+
+.lc-footer__item{
+  color: var(--text-gray);
+  font-size: 14px;
+  line-height: 1.7;
+  margin-top: 6px;
+}
+
+.lc-footer__label{
+  font-weight: 700;
+  color: var(--text-dark);
+  margin-right: 6px;
+}
+
+.lc-footer__link{
+  color: var(--blue-main);
+  text-decoration: none;
+  font-weight: 600;
+}
+.lc-footer__link:hover{ text-decoration: underline; }
+
+.lc-footer__hotline{
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid #D9E6FF;
+  background: #FFFFFF;
+  color: var(--blue-main);
+  text-decoration: none;
+  font-weight: 800;
+  width: fit-content;
+}
+.lc-footer__hotline:hover{
+  background: var(--blue-light);
+}
+
+.lc-footer__bottom{
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px dashed #D9E6FF;
+  color: #6B7280;
+  font-size: 13px;
+  line-height: 1.7;
+  text-align: center;
+}
+
+/* Responsive */
+@media (max-width: 980px){
+  .lc-footer__grid{
+    grid-template-columns: 1fr 1fr;
+  }
+}
+@media (max-width: 560px){
+  .lc-footer__grid{
+    grid-template-columns: 1fr;
+  }
+  .lc-footer__hotline{
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+    /* ===== PAGE LAYOUT ===== */
+    .container{
+      max-width: 920px;
+      margin: 0 auto;
+      padding: 28px 18px 60px;
+    }
+
+    .hero{ margin-top: 18px; }
+    .hero h1{
+      font-size: clamp(34px, 4vw, 48px);
+      color: var(--blue-main);
+      letter-spacing: .2px;
+      line-height: 1.1;
+    }
+    .hero p{
+      margin-top: 10px;
+      color: var(--text-gray);
+      max-width: 78ch;
+      font-size: 16px;
+      line-height: 1.7;
+    }
+
+    .section{
+      margin-top: 34px;
+      padding-bottom: 26px;
+      border-bottom: 1px solid var(--line);
+    }
+    .section h2{
+      font-size: 22px;
+      color: var(--blue-main);
+      margin-bottom: 10px;
+      line-height: 1.25;
+    }
+    .section p{
+      color: var(--text-gray);
+      line-height: 1.75;
+      margin-top: 10px;
+    }
+
+    .soft-box{
+      margin-top: 14px;
+      background: var(--blue-light);
+      border: 1px solid #D9E6FF;
+      border-radius: 12px;
+      padding: 14px 16px;
+      color: var(--text-dark);
+      line-height: 1.7;
+    }
+    .soft-box strong{ color: var(--blue-main); }
+
+    .warn-box{
+      margin-top: 14px;
+      background: #FFF3F3;
+      border: 1px solid #FFD0D0;
+      border-radius: 12px;
+      padding: 14px 16px;
+      color: var(--text-dark);
+      line-height: 1.7;
+    }
+    .warn-box strong{ color: var(--red-accent); }
+
+    .cards{
+      margin-top: 14px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+    @media (max-width: 860px){
+      .cards{ grid-template-columns: 1fr; }
+    }
+
+    .card{
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: var(--card);
+      padding: 14px 16px;
+    }
+    .card .icon{
+      width: 38px; height: 38px;
+      border-radius: 10px;
+      display:grid; place-items:center;
+      background: var(--blue-light);
+      color: var(--blue-main);
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
+    .card h3{
+      font-size: 16px;
+      color: var(--text-dark);
+      line-height: 1.3;
+    }
+    .card p{
+      margin-top: 8px;
+      color: var(--text-gray);
+      line-height: 1.7;
+      font-size: 14px;
+    }
+
+    .stages{
+      margin-top: 14px;
+      display: grid;
+      gap: 12px;
+    }
+    .stage{
+      display:flex;
+      gap: 12px;
+      align-items:flex-start;
+      padding: 14px 16px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: #FAFBFF;
+    }
+    .stage .sicon{
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      display:grid;
+      place-items:center;
+      background: var(--blue-light);
+      color: var(--blue-main);
+      flex: 0 0 36px;
+      font-size: 18px;
+    }
+    .stage h3{
+      font-size: 16px;
+      color: var(--text-dark);
+      line-height: 1.3;
+    }
+    .stage p{
+      margin-top: 6px;
+      color: var(--text-gray);
+      line-height: 1.7;
+    }
+    .tag{
+      display:inline-block;
+      margin-left: 8px;
+      font-size: 12px;
+      padding: 2px 8px;
+      border-radius: 999px;
+      border: 1px solid #D9E6FF;
+      background: #F4F8FF;
+      color: var(--blue-main);
+      vertical-align: middle;
+    }
+
+    .faq{
+      margin-top: 18px;
+      display:grid;
+      gap: 10px;
+    }
+    details{
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 12px 14px;
+      background: var(--white);
+    }
+    summary{
+      cursor:pointer;
+      font-weight: 700;
+      color: var(--text-dark);
+      list-style:none;
+    }
+    summary::-webkit-details-marker{ display:none; }
+    details p{
+      margin-top: 8px;
+      color: var(--text-gray);
+      line-height: 1.7;
+    }
+
+    footer{
+      margin-top: 22px;
+      color: #6B7280;
+      font-size: 13px;
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- HEADER -->
+  <header>
+          <div class="logo">
+    <a href="index.html">
+      <img src="pic/longchau.png" alt="Nhà Thuốc Long Châu Logo">
+    </a>
+  </div>
+
+    <nav>
+      <div class="nav-item"><a href="hivlagi.html">Hiểu đúng về HIV</a></div>
+      <div class="nav-item"><a href="laynhiem.html">Đường lây và Dấu hiệu</a></div>
+      <div class="nav-item"><a href="phongngua.html">Phòng ngừa &amp; Xét nghiệm</a></div>
+      <div class="nav-item"><a href="prep-pep.html">PrEP &amp; PEP</a></div>
+      <div class="nav-item"><a href="xet_nghiem.html">Xét nghiệm HIV</a></div>
+      <div class="nav-item"><a href="dieu_tri.html">Điều trị HIV</a></div>
+      <div class="nav-item"><a href="faq.html">FAQ</a></div>
+    </nav>
+  </header>
+
+  <!-- MAIN -->
+  <main class="container" id="con-duong-lay-nhiem">
+    <section class="hero">
+      <h1>Con đường lây nhiễm & Dấu hiệu</h1>
+      <p>
+        Hiểu đúng về các con đường lây nhiễm HIV giúp phòng tránh hiệu quả, đồng thời giảm bớt sợ hãi và kỳ thị không cần thiết.
+        HIV không lây ngẫu nhiên, mà chỉ truyền từ người sang người qua một số con đường xác định.
+      </p>
+    </section>
+
+    <!-- SECTION 1 -->
+    <section class="section" id="lay-nhiem">
+      <h2>Con đường lây nhiễm</h2>
+
+      <p>
+        Hiểu đúng về các con đường lây nhiễm HIV đóng vai trò quan trọng trong công tác phòng, chống HIV/AIDS,
+        đồng thời góp phần giảm bớt sự sợ hãi và kỳ thị không cần thiết trong cộng đồng. Trên thực tế, HIV không lây lan một cách ngẫu nhiên
+        mà chỉ truyền từ người sang người thông qua một số con đường xác định.
+        <img src="pic/a4.png" alt="bảo vệ chính bạn và gia đình">
+      </p>
+
+      <div class="cards">
+        <div class="card">
+          <div class="icon">❤️</div>
+          <h3>1) Quan hệ tình dục không an toàn</h3>
+          <p>
+            Đây là con đường phổ biến nhất hiện nay. HIV có thể lây truyền khi quan hệ tình dục qua đường âm đạo, hậu môn
+            hoặc đường miệng nếu không sử dụng biện pháp bảo vệ, đặc biệt khi có tổn thương niêm mạc hoặc tiếp xúc trực tiếp
+            với tinh dịch, dịch âm đạo hay máu của người nhiễm HIV.
+          </p>
+        </div>
+
+        <div class="card">
+          <div class="icon">💉</div>
+          <h3>2) Lây nhiễm qua đường máu</h3>
+          <p>
+            Xảy ra khi máu của người nhiễm HIV xâm nhập trực tiếp vào cơ thể người khác: dùng chung kim tiêm/bơm kim tiêm,
+            truyền máu hoặc chế phẩm máu không được sàng lọc an toàn, hoặc dùng chung dụng cụ y tế–thẩm mỹ không tiệt trùng đúng quy trình.
+            Đây là con đường nguy cơ cao nhưng có thể phòng tránh nếu tuân thủ an toàn y tế.
+          </p>
+        </div>
+
+        <div class="card">
+          <div class="icon">👩‍🍼</div>
+          <h3>3) Lây truyền từ mẹ sang con</h3>
+          <p>
+            Có thể xảy ra khi mang thai, lúc sinh hoặc khi cho con bú nếu người mẹ nhiễm HIV không được điều trị.
+            Tuy nhiên, nhờ tiến bộ y học, nguy cơ có thể giảm xuống rất thấp khi mẹ được phát hiện sớm và điều trị ARV đầy đủ theo hướng dẫn.
+          </p>
+        </div>
+      </div>
+
+      <div class="soft-box">
+        <strong>HIV không lây qua tiếp xúc thông thường:</strong>
+        bắt tay, ôm, dùng chung bát đũa, sử dụng nhà vệ sinh công cộng, ho, hắt hơi hay muỗi đốt.
+        Việc hiểu rõ “không lây” giúp xóa bỏ hiểu lầm và xây dựng thái độ ứng xử nhân văn, không kỳ thị với người nhiễm HIV.
+      </div>
+    </section>
+
+    <!-- SECTION 2 -->
+    <section class="section" id="dau-hieu">
+      <h2>Những dấu hiệu</h2>
+
+      <p>
+        Việc nhận biết sớm các dấu hiệu của nhiễm HIV có ý nghĩa quan trọng trong phát hiện và điều trị kịp thời,
+        đồng thời hạn chế lây nhiễm trong cộng đồng. Tuy nhiên, HIV thường diễn tiến âm thầm và các biểu hiện lâm sàng không đặc hiệu,
+        dễ bị nhầm lẫn với nhiều bệnh lý thông thường. Vì vậy, không thể dựa hoàn toàn vào triệu chứng để khẳng định nhiễm HIV,
+        mà cần kết hợp với xét nghiệm y tế.
+      </p>
+      <img src="pic/a5.png" alt="bảo vệ chính bạn và gia đình">
+      <div class="stages">
+        <div class="stage">
+          <div class="sicon">🕒</div>
+          <div>
+            <h3>Giai đoạn cấp tính <span class="tag">vài tuần đầu</span></h3>
+            <p>
+              Có thể giống cúm: sốt, mệt mỏi, đau họng, đau đầu, nổi hạch, phát ban hoặc đau cơ.
+              Triệu chứng thường nhẹ và tự hết nên nhiều người chủ quan. Đây cũng là giai đoạn virus nhân lên mạnh và khả năng lây nhiễm cao.
+            </p>
+          </div>
+        </div>
+
+        <div class="stage">
+          <div class="sicon">😶</div>
+          <div>
+            <h3>Giai đoạn không triệu chứng <span class="tag">kéo dài nhiều năm</span></h3>
+            <p>
+              Hầu như không có biểu hiện rõ ràng; người nhiễm vẫn sinh hoạt và làm việc bình thường, có thể không biết mình đang mang virus.
+              Sự “im lặng” này khiến nhiều người bỏ lỡ cơ hội phát hiện và điều trị sớm.
+            </p>
+          </div>
+        </div>
+
+        <div class="stage">
+          <div class="sicon">⚠️</div>
+          <div>
+            <h3>Giai đoạn muộn/tiến triển <span class="tag">khi miễn dịch suy giảm</span></h3>
+            <p>
+              Có thể sụt cân nhanh không rõ nguyên nhân, sốt kéo dài, tiêu chảy mạn tính, nhiễm trùng tái diễn,
+              viêm phổi, nấm miệng hoặc các bệnh cơ hội khác. Những biểu hiện này cho thấy cơ thể suy giảm khả năng tự bảo vệ.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="warn-box" id="xet-nghiem">
+        <strong>Quan trọng:</strong> Nhiều dấu hiệu dễ nhầm với stress, suy nhược hoặc nhiễm trùng thông thường.
+        Vì vậy, chỉ dựa vào triệu chứng là không đủ. <strong>Xét nghiệm HIV</strong> là phương pháp duy nhất giúp xác định chính xác tình trạng nhiễm,
+        đặc biệt với người từng có hành vi nguy cơ hoặc cảm thấy lo lắng về khả năng phơi nhiễm.
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="section" id="faq" style="border-bottom:none; padding-bottom:0;">
+      <h2>FAQ — Câu hỏi thường gặp</h2>
+
+      <div class="faq">
+        <details>
+          <summary>HIV có lây qua bắt tay, ôm, dùng chung bát đũa không?</summary>
+          <p>Không. HIV không lây qua các tiếp xúc thông thường trong sinh hoạt hằng ngày như bắt tay, ôm, dùng chung bát đũa…</p>
+        </details>
+
+        <details>
+          <summary>Có thể nhận biết HIV chỉ dựa trên triệu chứng không?</summary>
+          <p>Không. Triệu chứng thường không đặc hiệu và dễ nhầm với bệnh khác. Xét nghiệm HIV là cách xác định chính xác.</p>
+        </details>
+
+        <details>
+          <summary>Nguy cơ lây từ mẹ sang con có phòng tránh được không?</summary>
+          <p>Có. Nếu phát hiện sớm và điều trị ARV đầy đủ theo hướng dẫn y tế, nguy cơ lây truyền từ mẹ sang con có thể giảm xuống rất thấp.</p>
+        </details>
+      </div>
+    </section>
+  </main>
+</body>
+<!-- FOOTER LIÊN HỆ -->
+<footer class="lc-footer" id="lien-he">
+  <div class="lc-footer__wrap">
+    <div class="lc-footer__grid">
+      <div class="lc-footer__col">
+        <div class="lc-footer__item"></div>
+
+        <div class="lc-footer__item">
+          <span class="lc-footer__label">TỔNG ĐÀI (8:00-22:00)</span>
+        </div>
+                <div class="lc-footer__item">
+          <span class="lc-footer__label">Email:</span>
+          <a class="lc-footer__link" href="mailto:sale@nhathuoclongchau.com.vn">
+            sale@nhathuoclongchau.com.vn
+          </a>
+        </div>
+      </div>
+
+
+      <div class="lc-footer__col">
+        <h4 class="lc-footer__subtitle">Tư vấn mua hàng  (Nhánh 1)</h4>
+        <a class="lc-footer__hotline" href="tel:18006928">1800 6928</a>
+      </div>
+
+      <div class="lc-footer__col">
+        <h4 class="lc-footer__subtitle">Trung tâm Vắc xin (Nhánh 2)</h4>
+        <a class="lc-footer__hotline" href="tel:18006928">1800 6928</a>
+      </div>
+
+      <div class="lc-footer__col">
+        <h4 class="lc-footer__subtitle">Góp ý, khiếu nại và tiếp nhận cảnh báo thông tin vi phạm (Nhánh 3)</h4>
+        <a class="lc-footer__hotline" href="tel:18006928">1800 6928</a>
+      </div>
+    </div>
+
+    <div class="lc-footer__bottom">
+      <p>
+        Nội dung mang tính giáo dục &amp; truyền thông sức khỏe. Không kỳ thị – tôn trọng – hỗ trợ người nhiễm HIV.
+      </p>
+    </div>
+  </div>
+</footer>
+</html>

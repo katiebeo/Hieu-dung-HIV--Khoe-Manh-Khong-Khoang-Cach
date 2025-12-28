@@ -1,0 +1,538 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Điều trị HIV — Long Châu</title>
+
+  <style>
+    :root{
+      --blue-main: #0047BA;
+      --blue-light:#EAF1FF;
+      --white:#FFFFFF;
+      --text-dark:#1F2937;
+      --text-gray:#4B5563;
+      --line:#E5E7EB;
+      --card:#FAFBFF;
+      --good:#16A34A;
+      --warn:#D62828;
+    }
+
+    *{ margin:0; padding:0; box-sizing:border-box; font-family: Arial, sans-serif; }
+    body{ background: var(--white); color: var(--text-dark); }
+
+   /* ===== HEADER (Long Châu) ===== */
+    header, header * { box-sizing: border-box; font-family: Arial, sans-serif; }
+
+    header {
+      display: flex;
+      align-items: center;
+      gap: 60px;
+      padding: 12px 40px;
+      border-bottom: 1px solid #e0e0e0;
+      background: #fff;
+      position: sticky;
+      top: 0;
+      z-index: 999;
+    }
+
+    .logo {
+      font-size: 22px;
+      font-weight: bold;
+      color: #0047ba;
+      white-space: nowrap;
+    }
+    .logo a { color: inherit; text-decoration: none; }
+    .logo img {
+      height: 50px;        /* adjust as needed */
+      width: auto;
+      display: block;
+    }
+    nav {
+      display: flex;
+      gap: 50px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .nav-item {
+      position: relative;
+      font-size: 18px;
+      color: #0047ba;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: 500;
+      white-space: nowrap;
+    }
+
+    .nav-item > a {
+      color: inherit;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .nav-item:hover > a { text-decoration: underline; }
+    .arrow { font-size: 10px; }
+
+    .dropdown {
+      position: absolute;
+      top: 120%;
+      left: 0;
+      background-color: #fff;
+      border: 1px solid #e0e0e0;
+      min-width: 190px;
+      display: none;
+      flex-direction: column;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+      z-index: 1000;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .dropdown a {
+      padding: 10px 14px;
+      text-decoration: none;
+      color: #0047ba;
+      font-size: 13px;
+      white-space: nowrap;
+    }
+
+    .dropdown a:hover { background-color: #f5f7fa; }
+    .nav-item:hover .dropdown { display: flex; }
+
+    @media (max-width: 900px) {
+      header { padding: 12px 16px; gap: 16px; }
+      nav {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        gap: 18px;
+        padding-bottom: 4px;
+        -webkit-overflow-scrolling: touch;
+      }
+    }
+/* ===== FOOTER LIÊN HỆ (Long Châu style) ===== */
+.lc-footer{
+  margin-top: 28px;
+  background: #F7FAFF;
+  border-top: 1px solid var(--line);
+}
+
+.lc-footer__wrap{
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 22px 18px 14px;
+}
+
+.lc-footer__grid{
+  display: grid;
+  grid-template-columns: 1.3fr 1fr 1fr 1.2fr;
+  gap: 16px;
+  align-items: start;
+}
+
+.lc-footer__title{
+  font-size: 16px;
+  color: var(--blue-main);
+  margin-bottom: 10px;
+}
+
+.lc-footer__subtitle{
+  font-size: 14px;
+  color: var(--text-dark);
+  margin-bottom: 8px;
+  line-height: 1.35;
+}
+
+.lc-footer__item{
+  color: var(--text-gray);
+  font-size: 14px;
+  line-height: 1.7;
+  margin-top: 6px;
+}
+
+.lc-footer__label{
+  font-weight: 700;
+  color: var(--text-dark);
+  margin-right: 6px;
+}
+
+.lc-footer__link{
+  color: var(--blue-main);
+  text-decoration: none;
+  font-weight: 600;
+}
+.lc-footer__link:hover{ text-decoration: underline; }
+
+.lc-footer__hotline{
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid #D9E6FF;
+  background: #FFFFFF;
+  color: var(--blue-main);
+  text-decoration: none;
+  font-weight: 800;
+  width: fit-content;
+}
+.lc-footer__hotline:hover{
+  background: var(--blue-light);
+}
+
+.lc-footer__bottom{
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px dashed #D9E6FF;
+  color: #6B7280;
+  font-size: 13px;
+  line-height: 1.7;
+  text-align: center;
+}
+
+/* Responsive */
+@media (max-width: 980px){
+  .lc-footer__grid{
+    grid-template-columns: 1fr 1fr;
+  }
+}
+@media (max-width: 560px){
+  .lc-footer__grid{
+    grid-template-columns: 1fr;
+  }
+  .lc-footer__hotline{
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+    /* ===== PAGE LAYOUT ===== */
+    .container{
+      max-width:920px;
+      margin:0 auto;
+      padding:28px 18px 60px;
+    }
+
+    .hero{
+      margin-top:18px;
+      padding:18px;
+      border:1px solid #D9E6FF;
+      background:linear-gradient(180deg, var(--blue-light), #ffffff);
+      border-radius:14px;
+    }
+    .hero h1{
+      font-size:clamp(30px, 3.6vw, 44px);
+      color:var(--blue-main);
+      line-height:1.15;
+    }
+    .hero p{
+      margin-top:10px;
+      color:var(--text-gray);
+      max-width:86ch;
+      line-height:1.75;
+      font-size:16px;
+    }
+
+    .section{
+      margin-top:28px;
+      padding-bottom:26px;
+      border-bottom:1px solid var(--line);
+    }
+    .section h2{
+      font-size:22px;
+      color:var(--blue-main);
+      margin-bottom:10px;
+    }
+    .section p{
+      margin-top:10px;
+      color:var(--text-gray);
+      line-height:1.85;
+    }
+
+    .cards{
+      margin-top:16px;
+      display:grid;
+      grid-template-columns:repeat(2, 1fr);
+      gap:14px;
+    }
+    @media (max-width: 800px){
+      .cards{ grid-template-columns:1fr; }
+    }
+
+    .card{
+      border:1px solid var(--line);
+      border-radius:12px;
+      background:var(--card);
+      padding:16px;
+    }
+    .card .icon{
+      width:40px;
+      height:40px;
+      border-radius:10px;
+      display:grid;
+      place-items:center;
+      background:var(--blue-light);
+      color:var(--blue-main);
+      font-size:20px;
+      margin-bottom:10px;
+    }
+    .card h3{
+      font-size:16px;
+      color:var(--text-dark);
+      margin-bottom:6px;
+    }
+    .card p{
+      font-size:14px;
+      color:var(--text-gray);
+      line-height:1.7;
+    }
+
+    .soft-box{
+      margin-top:16px;
+      background:var(--blue-light);
+      border:1px solid #D9E6FF;
+      border-radius:12px;
+      padding:14px 16px;
+      line-height:1.75;
+      color:var(--text-dark);
+    }
+    .soft-box strong{ color:var(--blue-main); }
+
+    .good-box{
+      margin-top:16px;
+      background:#F0FDF4;
+      border:1px solid #BBF7D0;
+      border-radius:12px;
+      padding:14px 16px;
+      line-height:1.75;
+      color:var(--text-dark);
+    }
+    .good-box strong{ color:var(--good); }
+
+    .steps{
+      margin-top:14px;
+      display:grid;
+      gap:10px;
+    }
+    .step{
+      border:1px solid var(--line);
+      border-radius:12px;
+      background:#fff;
+      padding:14px 16px;
+      display:flex;
+      gap:12px;
+      align-items:flex-start;
+    }
+    .step .num{
+      width:34px;
+      height:34px;
+      border-radius:10px;
+      display:grid;
+      place-items:center;
+      background:var(--blue-light);
+      color:var(--blue-main);
+      font-weight:700;
+      flex:0 0 34px;
+    }
+    .step p{
+      margin:0;
+      color:var(--text-gray);
+      line-height:1.75;
+    }
+
+    ul.list{
+      margin-top:12px;
+      padding-left:18px;
+      color:var(--text-gray);
+      line-height:1.85;
+    }
+    ul.list li{ margin-top:6px; }
+
+    footer{
+      margin-top:22px;
+      color:#6B7280;
+      font-size:13px;
+      text-align:center;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- HEADER -->
+  <header>
+          <div class="logo">
+    <a href="tongquan.html">
+      <img src="pic/longchau.png" alt="Nhà Thuốc Long Châu Logo">
+    </a>
+  </div>
+
+    <nav>
+      <div class="nav-item"><a href="hivlagi.html">Hiểu đúng về HIV</a></div>
+      <div class="nav-item"><a href="laynhiem.html">Đường lây và Dấu hiệu</a></div>
+      <div class="nav-item"><a href="phongngua.html">Phòng ngừa &amp; Xét nghiệm</a></div>
+      <div class="nav-item"><a href="prep-pep.html">PrEP &amp; PEP</a></div>
+      <div class="nav-item"><a href="xet_nghiem.html">Xét nghiệm HIV</a></div>
+      <div class="nav-item"><a href="dieu_tri.html">Điều trị HIV</a></div>
+      <div class="nav-item"><a href="faq.html">FAQ</a></div>
+    </nav>
+  </header>
+
+  <!-- MAIN -->
+  <main class="container">
+    <section class="hero">
+      <h1>Điều trị HIV</h1>
+      <p>
+        Ngày nay, HIV đã được xem là một bệnh mạn tính có thể kiểm soát, không còn là “án tử” như những quan niệm trước đây.
+        Người nhiễm HIV nếu được phát hiện sớm và điều trị đúng cách có thể sống khỏe mạnh, làm việc, học tập và sinh hoạt như người bình thường.
+      </p>
+    </section>
+
+    <section class="section" id="arv">
+      <h2>ARV là gì?</h2>
+      <p>
+        ARV (Antiretroviral) là thuốc kháng virus dùng để điều trị HIV. Thuốc ARV không tiêu diệt hoàn toàn virus HIV,
+        nhưng có tác dụng ức chế sự nhân lên của virus, giúp bảo vệ hệ miễn dịch và ngăn HIV tiến triển sang AIDS.
+      </p>
+        <img src="pic/a10.png" alt="bảo vệ chính bạn và gia đình">
+      <div class="cards">
+        <div class="card">
+          <div class="icon">🧬</div>
+          <h3>Tác dụng chính</h3>
+          <p>Ức chế sự nhân lên của virus HIV, giúp bảo vệ hệ miễn dịch và giảm nguy cơ tiến triển sang AIDS.</p>
+        </div>
+        <div class="card">
+          <div class="icon">📉</div>
+          <h3>Mục tiêu điều trị</h3>
+          <p>Duy trì tải lượng virus ở mức thấp nhất có thể, cải thiện chất lượng sống và kéo dài tuổi thọ.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="nguyen-tac">
+      <h2>Nguyên tắc điều trị HIV</h2>
+
+      <div class="steps">
+        <div class="step">
+          <div class="num">1</div>
+          <p>Điều trị càng sớm càng tốt ngay sau khi phát hiện nhiễm HIV.</p>
+        </div>
+        <div class="step">
+          <div class="num">2</div>
+          <p>Uống thuốc đều đặn hằng ngày, đúng liều, đúng giờ theo chỉ định y tế.</p>
+        </div>
+        <div class="step">
+          <div class="num">3</div>
+          <p>Theo dõi định kỳ để đánh giá hiệu quả điều trị và điều chỉnh khi cần thiết.</p>
+        </div>
+      </div>
+
+      <div class="soft-box">
+        <strong>Lợi ích điều trị sớm &amp; liên tục:</strong>
+        giúp giảm nguy cơ mắc các bệnh cơ hội, cải thiện chất lượng cuộc sống và kéo dài tuổi thọ cho người nhiễm HIV.
+      </div>
+    </section>
+
+    <section class="section" id="tuan-thu">
+      <h2>Tại sao cần tuân thủ điều trị trên 95%?</h2>
+      <p>
+        Tuân thủ điều trị ở mức trên 95% giúp duy trì tải lượng virus HIV ở mức không phát hiện.
+        Khi đạt được mức này, người nhiễm HIV không còn khả năng lây truyền HIV qua đường tình dục
+        (nguyên tắc <strong>K = K</strong>: Không phát hiện = Không lây truyền).
+      </p>
+
+      <div class="good-box">
+        <strong>Ý nghĩa cộng đồng:</strong> Đây là một bước tiến quan trọng trong điều trị HIV hiện đại và trong việc bảo vệ cộng đồng.
+      </div>
+    </section>
+
+    <section class="section" id="quy-trinh">
+      <h2>Quy trình tiếp cận điều trị HIV</h2>
+      <p>Người nhiễm HIV có thể tiếp cận điều trị thông qua các bước:</p>
+
+      <div class="steps">
+        <div class="step">
+          <div class="num">1</div>
+          <p>Đăng ký khám và tư vấn tại cơ sở y tế có chuyên khoa HIV/AIDS.</p>
+        </div>
+        <div class="step">
+          <div class="num">2</div>
+          <p>Thực hiện xét nghiệm và đánh giá tình trạng sức khỏe.</p>
+        </div>
+        <div class="step">
+          <div class="num">3</div>
+          <p>Bắt đầu điều trị ARV và tái khám định kỳ.</p>
+        </div>
+      </div>
+
+      <div class="soft-box">
+        <strong>Hỗ trợ chi phí:</strong>
+        Hiện nay, điều trị HIV bằng thuốc ARV được hỗ trợ miễn phí thông qua bảo hiểm y tế, giúp người bệnh giảm gánh nặng chi phí
+        và yên tâm điều trị lâu dài.
+      </div>
+    </section>
+
+    <section class="section" id="song-chung" style="border-bottom:none; padding-bottom:0;">
+      <h2>Sống chung với HIV</h2>
+      <p>Bên cạnh điều trị bằng thuốc, người nhiễm HIV cần chú ý đến:</p>
+
+      <ul class="list">
+        <li>Chế độ dinh dưỡng lành mạnh để tăng cường sức đề kháng.</li>
+        <li>Chăm sóc sức khỏe tinh thần, giảm căng thẳng và duy trì lối sống tích cực.</li>
+        <li>Hiểu rõ quyền lợi pháp lý: người nhiễm HIV được pháp luật Việt Nam bảo vệ, không bị kỳ thị hay phân biệt đối xử.</li>
+      </ul>
+
+      <div class="soft-box">
+        <strong>Long Châu đồng hành:</strong>
+        Nhà thuốc Long Châu cung cấp thông tin chính xác về điều trị HIV, giúp người dân hiểu rằng HIV có thể kiểm soát được nếu điều trị đúng và đủ.
+        Điều trị HIV không chỉ là chăm sóc sức khỏe cho cá nhân, mà còn là hành động góp phần bảo vệ sức khỏe cho cả cộng đồng.
+      </div>
+    </section>
+  </main>
+</body>
+<!-- FOOTER LIÊN HỆ -->
+<footer class="lc-footer" id="lien-he">
+  <div class="lc-footer__wrap">
+    <div class="lc-footer__grid">
+      <div class="lc-footer__col">
+        <div class="lc-footer__item"></div>
+
+        <div class="lc-footer__item">
+          <span class="lc-footer__label">TỔNG ĐÀI (8:00-22:00)</span>
+        </div>
+                <div class="lc-footer__item">
+          <span class="lc-footer__label">Email:</span>
+          <a class="lc-footer__link" href="mailto:sale@nhathuoclongchau.com.vn">
+            sale@nhathuoclongchau.com.vn
+          </a>
+        </div>
+      </div>
+
+
+      <div class="lc-footer__col">
+        <h4 class="lc-footer__subtitle">Tư vấn mua hàng  (Nhánh 1)</h4>
+        <a class="lc-footer__hotline" href="tel:18006928">1800 6928</a>
+      </div>
+
+      <div class="lc-footer__col">
+        <h4 class="lc-footer__subtitle">Trung tâm Vắc xin (Nhánh 2)</h4>
+        <a class="lc-footer__hotline" href="tel:18006928">1800 6928</a>
+      </div>
+
+      <div class="lc-footer__col">
+        <h4 class="lc-footer__subtitle">Góp ý, khiếu nại và tiếp nhận cảnh báo thông tin vi phạm (Nhánh 3)</h4>
+        <a class="lc-footer__hotline" href="tel:18006928">1800 6928</a>
+      </div>
+    </div>
+
+    <div class="lc-footer__bottom">
+      <p>
+        Nội dung mang tính giáo dục &amp; truyền thông sức khỏe. Không kỳ thị – tôn trọng – hỗ trợ người nhiễm HIV.
+      </p>
+    </div>
+  </div>
+</footer>
+</html>

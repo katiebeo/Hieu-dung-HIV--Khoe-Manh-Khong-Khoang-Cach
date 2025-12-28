@@ -1,0 +1,451 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Xét nghiệm HIV — Long Châu</title>
+
+  <style>
+    :root{
+      --blue-main: #0047BA;
+      --blue-light:#EAF1FF;
+      --white:#FFFFFF;
+      --text-dark:#1F2937;
+      --text-gray:#4B5563;
+      --line:#E5E7EB;
+      --card:#FAFBFF;
+      --good:#16A34A;
+    }
+
+    *{ margin:0; padding:0; box-sizing:border-box; font-family: Arial, sans-serif; }
+    body{ background: var(--white); color: var(--text-dark); }
+
+    /* ===== HEADER (Long Châu) ===== */
+    header, header * { box-sizing: border-box; font-family: Arial, sans-serif; }
+
+    header {
+      display: flex;
+      align-items: center;
+      gap: 60px;
+      padding: 12px 40px;
+      border-bottom: 1px solid #e0e0e0;
+      background: #fff;
+      position: sticky;
+      top: 0;
+      z-index: 999;
+    }
+
+    .logo {
+      font-size: 22px;
+      font-weight: bold;
+      color: #0047ba;
+      white-space: nowrap;
+    }
+    .logo a { color: inherit; text-decoration: none; }
+    .logo img {
+      height: 50px;        /* adjust as needed */
+      width: auto;
+      display: block;
+    }
+    nav {
+      display: flex;
+      gap: 50px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .nav-item {
+      position: relative;
+      font-size: 18px;
+      color: #0047ba;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: 500;
+      white-space: nowrap;
+    }
+
+    .nav-item > a {
+      color: inherit;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .nav-item:hover > a { text-decoration: underline; }
+    .arrow { font-size: 10px; }
+
+    .dropdown {
+      position: absolute;
+      top: 120%;
+      left: 0;
+      background-color: #fff;
+      border: 1px solid #e0e0e0;
+      min-width: 190px;
+      display: none;
+      flex-direction: column;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+      z-index: 1000;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .dropdown a {
+      padding: 10px 14px;
+      text-decoration: none;
+      color: #0047ba;
+      font-size: 13px;
+      white-space: nowrap;
+    }
+
+    .dropdown a:hover { background-color: #f5f7fa; }
+    .nav-item:hover .dropdown { display: flex; }
+
+    @media (max-width: 900px) {
+      header { padding: 12px 16px; gap: 16px; }
+      nav {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        gap: 18px;
+        padding-bottom: 4px;
+        -webkit-overflow-scrolling: touch;
+      }
+    }
+
+    /* ===== PAGE LAYOUT ===== */
+    .container{
+      max-width:920px;
+      margin:0 auto;
+      padding:28px 18px 60px;
+    }
+
+    .hero{
+      margin-top:18px;
+      padding:18px;
+      border:1px solid #D9E6FF;
+      background:linear-gradient(180deg, var(--blue-light), #ffffff);
+      border-radius:14px;
+    }
+    .hero h1{
+      font-size:clamp(30px, 3.6vw, 44px);
+      color:var(--blue-main);
+      line-height:1.15;
+    }
+    .hero p{
+      margin-top:10px;
+      color:var(--text-gray);
+      max-width:85ch;
+      line-height:1.75;
+      font-size:16px;
+    }
+
+    .section{
+      margin-top:28px;
+      padding-bottom:26px;
+      border-bottom:1px solid var(--line);
+    }
+    .section h2{
+      font-size:22px;
+      color:var(--blue-main);
+      margin-bottom:10px;
+    }
+    .section p{
+      margin-top:10px;
+      color:var(--text-gray);
+      line-height:1.85;
+    }
+
+    .cards{
+      margin-top:16px;
+      display:grid;
+      grid-template-columns:repeat(2, 1fr);
+      gap:14px;
+    }
+    @media (max-width: 800px){
+      .cards{ grid-template-columns:1fr; }
+    }
+
+    .card{
+      border:1px solid var(--line);
+      border-radius:12px;
+      background:var(--card);
+      padding:16px;
+    }
+    .card .icon{
+      width:40px;
+      height:40px;
+      border-radius:10px;
+      display:grid;
+      place-items:center;
+      background:var(--blue-light);
+      color:var(--blue-main);
+      font-size:20px;
+      margin-bottom:10px;
+    }
+    .card h3{
+      font-size:16px;
+      color:var(--text-dark);
+      margin-bottom:6px;
+    }
+    .card p{
+      font-size:14px;
+      color:var(--text-gray);
+      line-height:1.7;
+    }
+
+    .soft-box{
+      margin-top:16px;
+      background:var(--blue-light);
+      border:1px solid #D9E6FF;
+      border-radius:12px;
+      padding:14px 16px;
+      line-height:1.75;
+      color:var(--text-dark);
+    }
+    .soft-box strong{ color:var(--blue-main); }
+
+    .quote{
+      margin-top:16px;
+      border-left:4px solid var(--good);
+      background:#F0FDF4;
+      border:1px solid #BBF7D0;
+      padding:14px 16px;
+      border-radius:12px;
+      color:var(--text-dark);
+      line-height:1.8;
+    }
+    .quote b{ color: var(--good); }
+
+/* ===== FOOTER LIÊN HỆ (Long Châu style) ===== */
+.lc-footer{
+  margin-top: 28px;
+  background: #F7FAFF;
+  border-top: 1px solid var(--line);
+}
+
+.lc-footer__wrap{
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 22px 18px 14px;
+}
+
+.lc-footer__grid{
+  display: grid;
+  grid-template-columns: 1.3fr 1fr 1fr 1.2fr;
+  gap: 16px;
+  align-items: start;
+}
+
+.lc-footer__title{
+  font-size: 16px;
+  color: var(--blue-main);
+  margin-bottom: 10px;
+}
+
+.lc-footer__subtitle{
+  font-size: 14px;
+  color: var(--text-dark);
+  margin-bottom: 8px;
+  line-height: 1.35;
+}
+
+.lc-footer__item{
+  color: var(--text-gray);
+  font-size: 14px;
+  line-height: 1.7;
+  margin-top: 6px;
+}
+
+.lc-footer__label{
+  font-weight: 700;
+  color: var(--text-dark);
+  margin-right: 6px;
+}
+
+.lc-footer__link{
+  color: var(--blue-main);
+  text-decoration: none;
+  font-weight: 600;
+}
+.lc-footer__link:hover{ text-decoration: underline; }
+
+.lc-footer__hotline{
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid #D9E6FF;
+  background: #FFFFFF;
+  color: var(--blue-main);
+  text-decoration: none;
+  font-weight: 800;
+  width: fit-content;
+}
+.lc-footer__hotline:hover{
+  background: var(--blue-light);
+}
+
+.lc-footer__bottom{
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px dashed #D9E6FF;
+  color: #6B7280;
+  font-size: 13px;
+  line-height: 1.7;
+  text-align: center;
+}
+
+/* Responsive */
+@media (max-width: 980px){
+  .lc-footer__grid{
+    grid-template-columns: 1fr 1fr;
+  }
+}
+@media (max-width: 560px){
+  .lc-footer__grid{
+    grid-template-columns: 1fr;
+  }
+  .lc-footer__hotline{
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+  </style>
+</head>
+
+<body>
+  <!-- HEADER -->
+  <header>
+          <div class="logo">
+    <a href="index.html">
+      <img src="pic/longchau.png" alt="Nhà Thuốc Long Châu Logo">
+    </a>
+  </div>
+
+    <nav>
+      <div class="nav-item"><a href="hivlagi.html">Hiểu đúng về HIV</a></div>
+      <div class="nav-item"><a href="laynhiem.html">Đường lây và Dấu hiệu</a></div>
+      <div class="nav-item"><a href="phongngua.html">Phòng ngừa &amp; Xét nghiệm</a></div>
+      <div class="nav-item"><a href="prep-pep.html">PrEP &amp; PEP</a></div>
+      <div class="nav-item"><a href="xet_nghiem.html">Xét nghiệm HIV</a></div>
+      <div class="nav-item"><a href="dieu_tri.html">Điều trị HIV</a></div>
+      <div class="nav-item"><a href="faq.html">FAQ</a></div>
+    </nav>
+  </header>
+
+  <!-- MAIN -->
+  <main class="container">
+    <section class="hero">
+      <h1>Xét nghiệm HIV</h1>
+      <p>
+        Xét nghiệm HIV là một hành động chủ động và trách nhiệm. Bên cạnh các biện pháp phòng ngừa,
+        tư vấn trước và sau xét nghiệm giữ vai trò quan trọng để giảm lo lắng, hiểu đúng kết quả và duy trì hành vi an toàn lâu dài.
+      </p>
+    </section>
+        <img src="pic/a8.png" alt="bảo vệ chính bạn và gia đình">
+    <section class="section" id="tu-van">
+      <h2>Tư vấn trước &amp; sau xét nghiệm: vì sao quan trọng?</h2>
+
+      <p>
+        Bên cạnh các biện pháp phòng ngừa, tư vấn trước và sau xét nghiệm HIV giữ vai trò không thể thiếu.
+        Tư vấn trước xét nghiệm giúp người dân hiểu rõ mục đích, quy trình và ý nghĩa của xét nghiệm, từ đó giảm lo lắng và tâm lý e ngại.
+      </p>
+
+      <p>
+        Tư vấn sau xét nghiệm giúp cá nhân hiểu đúng kết quả, tiếp cận điều trị kịp thời nếu kết quả dương tính,
+        hoặc duy trì các hành vi phòng ngừa an toàn nếu kết quả âm tính. Đây là bước quan trọng nhằm đảm bảo xét nghiệm HIV
+        không chỉ mang tính phát hiện mà còn góp phần thay đổi nhận thức và hành vi lâu dài.
+      </p>
+
+      <div class="cards">
+        <div class="card">
+          <div class="icon">🧾</div>
+          <h3>Tư vấn trước xét nghiệm</h3>
+          <p>
+            Giúp hiểu rõ mục đích, quy trình và ý nghĩa xét nghiệm; giảm lo lắng và tâm lý e ngại,
+            hỗ trợ đưa ra quyết định phù hợp và chủ động.
+          </p>
+        </div>
+
+        <div class="card">
+          <div class="icon">🤝</div>
+          <h3>Tư vấn sau xét nghiệm</h3>
+          <p>
+            Giúp hiểu đúng kết quả; nếu dương tính thì được hướng dẫn tiếp cận điều trị sớm,
+            nếu âm tính thì tiếp tục duy trì hành vi phòng ngừa an toàn.
+          </p>
+        </div>
+      </div>
+              <img src="pic/a9.png" alt="bảo vệ chính bạn và gia đình">
+    </section>
+
+    <section class="section" id="long-chau">
+      <h2>Long Châu đồng hành cùng cộng đồng</h2>
+
+      <p>
+        Nhà thuốc Long Châu đồng hành cùng cộng đồng trong việc cung cấp thông tin chính xác, dễ hiểu về xét nghiệm HIV,
+        đồng thời hỗ trợ tư vấn để khách hàng tiếp cận các dịch vụ xét nghiệm an toàn – bảo mật – không kỳ thị
+        tại các cơ sở y tế và đối tác uy tín.
+      </p>
+
+      <div class="soft-box">
+        <strong>Cam kết cách tiếp cận:</strong> nhẹ nhàng – tôn trọng – riêng tư.
+        Long Châu hướng đến việc giúp mỗi người cảm thấy yên tâm khi đưa ra quyết định cho sức khỏe của mình.
+      </div>
+
+      <div class="quote">
+        <b>Xét nghiệm HIV không phải là điều đáng sợ.</b><br/>
+        Đó là hành động trách nhiệm với bản thân và những người bạn yêu thương.<br/>
+        Nhà thuốc Long Châu luôn sẵn sàng đồng hành cùng bạn trên hành trình chăm sóc sức khỏe toàn diện.
+      </div>
+    </section>
+  </main>
+</body>
+
+<!-- FOOTER LIÊN HỆ -->
+<footer class="lc-footer" id="lien-he">
+  <div class="lc-footer__wrap">
+    <div class="lc-footer__grid">
+      <div class="lc-footer__col">
+        <div class="lc-footer__item"></div>
+
+        <div class="lc-footer__item">
+          <span class="lc-footer__label">TỔNG ĐÀI (8:00-22:00)</span>
+        </div>
+                <div class="lc-footer__item">
+          <span class="lc-footer__label">Email:</span>
+          <a class="lc-footer__link" href="mailto:sale@nhathuoclongchau.com.vn">
+            sale@nhathuoclongchau.com.vn
+          </a>
+        </div>
+      </div>
+
+
+      <div class="lc-footer__col">
+        <h4 class="lc-footer__subtitle">Tư vấn mua hàng  (Nhánh 1)</h4>
+        <a class="lc-footer__hotline" href="tel:18006928">1800 6928</a>
+      </div>
+
+      <div class="lc-footer__col">
+        <h4 class="lc-footer__subtitle">Trung tâm Vắc xin (Nhánh 2)</h4>
+        <a class="lc-footer__hotline" href="tel:18006928">1800 6928</a>
+      </div>
+
+      <div class="lc-footer__col">
+        <h4 class="lc-footer__subtitle">Góp ý, khiếu nại và tiếp nhận cảnh báo thông tin vi phạm (Nhánh 3)</h4>
+        <a class="lc-footer__hotline" href="tel:18006928">1800 6928</a>
+      </div>
+    </div>
+
+    <div class="lc-footer__bottom">
+      <p>
+        Nội dung mang tính giáo dục &amp; truyền thông sức khỏe. Không kỳ thị – tôn trọng – hỗ trợ người nhiễm HIV.
+      </p>
+    </div>
+  </div>
+</footer>
+</html>

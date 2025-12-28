@@ -1,0 +1,877 @@
+var Hope = {
+    init: function () {
+        var _self = Hope;
+        _self.shareSocial();
+    },
+    importScript: function (filepath, callback) {
+        filepath = window.decodeURIComponent(filepath);
+        filepath = filepath.trim().replace(/\s/g, '');
+        if (/^(:\/\/)/.test(filepath)) {
+            filepath = "https" + filepath;
+        }
+        else if (!/^(f|ht)tps?:\/\//i.test(filepath)) {
+            filepath = JS_URL + '/' + filepath.replace(/^(\/)/, '');
+        }
+        var scriptCheck = document.querySelectorAll('script[src="' + filepath + '"]');
+        if (scriptCheck.length > 0 && typeof callback == 'function') {
+            if (scriptCheck[0].hasAttribute('loaded')) {
+                callback();
+            } else {
+                scriptCheck[0].addEventListener('load', callback);
+            }
+        } else {
+            if (scriptCheck.length > 0) return;
+            var el = document.createElement('script');
+            el.setAttribute('type', 'text/javascript');
+            el.setAttribute('src', filepath);
+            if (typeof callback == 'function') {
+                el.onload = function () {
+                    el.setAttribute('loaded', 'loaded');
+                    callback();
+                };
+            } else {
+                el.onload = function () {
+                    el.setAttribute('loaded', 'loaded');
+                };
+            }
+            document.getElementsByTagName('head')[0].appendChild(el);
+        }
+    },
+    importStyle: function (filepath) {
+        filepath = window.decodeURIComponent(filepath);
+        filepath = filepath.trim().replace(/\s/g, '');
+        if (/^(:\/\/)/.test(filepath)) {
+            filepath = "https" + filepath;
+        }
+        else if (!/^(f|ht)tps?:\/\//i.test(filepath)) {
+            filepath = CSS_URL + '/' + filepath.replace(/^(\/)/, '');
+        }
+
+        if (document.querySelectorAll('link[href="' + filepath + '"]').length > 0) {
+            return;
+        }
+        var el = document.createElement('link');
+        el.setAttribute('type', 'text/css');
+        el.setAttribute('rel', 'Stylesheet');
+        el.setAttribute('href', filepath);
+        document.getElementsByTagName('head')[0].appendChild(el);
+    },
+    shareSocial: function () {
+        $('.fb_share').click(function () {
+            var linkFB = 'https://www.facebook.com/sharer/sharer.php?u=' + pageUrl;
+            window.open(linkFB, '_blank', 'height=450,width=700,resizable=no,status=no');
+            return false;
+        });
+        $('.tw_share').click(function () {
+            var linkTw = 'https://twitter.com/intent/tweet?source=webclient&text=' + pageTitle + ' - ' + pageUrl;
+            window.open(linkTw, '_blank', 'height=450,width=700,resizable=no,status=no');
+            return false;
+        });
+        $('.g_share').click(function () {
+            var linkGG = 'https://plus.google.com/share?url=' + pageUrl;
+            window.open(linkGG, '_blank', 'height=450,width=700,resizable=no,status=no');
+            return false;
+        });
+        $('.mail_share').click(function () {
+            var linkMail = 'https://mail.google.com/mail/?view=cm&fs=1&body=' + pageUrl;
+            window.open(linkMail, '_blank', 'height=450,width=700,resizable=no,status=no');
+            return false;
+        });
+        $('a.btn_copy').click(function() {
+            var input = document.createElement('input');
+            input.setAttribute('style', 'opacity:0');
+            document.body.appendChild(input);
+            var url = window.location.href.replace(window.location.hash, '');
+            url = url.split('?');
+            url = url[0];
+            input.value = url;
+            input.select();
+            document.execCommand('copy');
+            input.remove();
+
+            var elToolTip = $(this).find('.tip');
+            elToolTip.css('display', 'block');
+            setTimeout(function(){
+                elToolTip.css('display', 'none');
+            }, 500);
+        });
+        // Hope.getTotalSocial();
+    },
+    getTotalSocial: function () {
+        var shareUrl = typeof(pageUrl) != 'undefined' ? pageUrl : $('meta[property="og:url"]').attr('content');
+        var count_fb = 0;
+        var count_tw = 0;
+        var count_social = 0;
+        $.getJSON('https://graph.facebook.com/?id=' + shareUrl, function (data) {
+            if (typeof(data) != 'undefined' && typeof(data.share) != 'undefined' && typeof(data.share.share_count) != 'undefined') {
+                count_fb = parseInt(data.share.share_count);
+            }
+        });
+        setTimeout(function () {
+            count_social = count_fb + count_tw;
+            if (count_social > 0) {
+                if (count_social > 1000) {
+                    count_social = (count_social / 1000).toFixed(1);
+                    if (count_social > 1000) count_social = (count_social / 1000).toFixed(1) + "M";
+                    else count_social = count_social + "k";
+                }
+                $(".count_share").show();
+                $(".count_share").text(count_social);
+            }
+        }, 1000);
+    },
+    imageDetail: function () {
+        $(".box-news-details-article").find('img').each(function (index, el) {
+            $(this).removeAttr('width')
+            $(this).removeAttr('height');
+        });
+    },
+    formatCost: function (cost) {
+        return cost.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.");
+    },
+    listHope: function (page) {
+        var _self = this;
+        $.get('https://docs.google.com/spreadsheets/d/1CxfdEVD0X_5kwWtOpIzyHmXooLarye-vULr86BQQDpw/export?format=csv&id=1CxfdEVD0X_5kwWtOpIzyHmXooLarye-vULr86BQQDpw&gid=0', function (data) {
+            var data = $.csv.toArrays(data),
+                arrDatetime = [],
+                arrName = [],
+                arrCost = [];
+            if (typeof(data) == 'object' && $.isEmptyObject(data) === false) {
+                $.each(data, function (k, v) {
+                    if (k == 0) {
+                        for (var d in v) {
+                            if (d % 2 == 0) {
+                                arrDatetime.push(v[d]);
+                            }
+                        }
+                    } else {
+                        for (var e in arrDatetime) {
+                            if (typeof(arrDatetime[e]) != 'undefined') {
+                                for (var f = e * 2; f < e * 2 + 2; f++) {
+                                    if (f % 2 == 0) {
+                                        if (typeof(arrName[arrDatetime[e]]) == 'undefined' || arrName[arrDatetime[e]] == '') {
+                                            arrName[arrDatetime[e]] = [];
+                                        }
+                                        if (v[f] != '') {
+                                            arrName[arrDatetime[e]].push(v[f]);
+                                        }
+                                    } else {
+                                        if (typeof(arrCost[arrDatetime[e]]) == 'undefined' || arrCost[arrDatetime[e]] == '') {
+                                            arrCost[arrDatetime[e]] = [];
+                                        }
+                                        if (v[f] != '') {
+                                            arrCost[arrDatetime[e]].push(v[f]);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+            if (page == 'home') {
+                var html = '<div class="row">';
+                var arrTotalCost = [];
+                arrDatetime.reverse();
+                for (var i = 0; i <= arrDatetime.length; i++) {
+                    if (i == 2) break;
+                    var timeItem = arrDatetime[i];
+                    var totalCost = 0;
+                    if (typeof(timeItem) != 'undefined') {
+                        var nameItems = arrName[timeItem];
+                        nameItems.reverse();
+                        var costItems = arrCost[timeItem];
+                        costItems.reverse();
+                        html += '<div class="col-sm-6">';
+                        html += '<div class="box-support-list">';
+                        html += '<div class="box-support-list-top clearfix">'
+                        html += '<span class="date">Ngày ' + timeItem + '</span>';
+                        html += '<span class="currency-symbol currency-symbol_' + i + '" style="display:none;">đ</span>';
+                        html += '<span class="numscroller numscroller_' + i + '"></span>';
+                        html += '</div>';
+                        html += '<ul>';
+                        var z = 0;
+                        for (var j = 0; j <= nameItems.length; j++) {
+                            if (typeof(nameItems[j]) != 'undefined' || typeof(costItems[j]) != 'undefined') {
+                                var cost = costItems[j].replace(/\./g, '');
+                                cost = cost.replace('đ', '');
+                                cost = parseInt(cost.trim());
+                                totalCost += cost;
+                            }
+                            if (z >= 5) continue;
+                            if (typeof(nameItems[j]) != 'undefined') {
+                                if (nameItems[j].indexOf('|') > -1) {
+                                    var nameItem = nameItems[j].split('|');
+                                    html += '<li><strong>' + nameItem[0] + '</strong><span>' + costItems[j] + '</span></li>';
+                                } else {
+                                    if (nameItems[j].length > 10) {
+                                        nameItems[j] = nameItems[j].split(' ', 5);
+                                        nameItems[j] = nameItems[j].join(' ') + '...';
+                                    }
+                                    html += '<li><strong>' + nameItems[j] + '</strong><span>' + costItems[j] + '</span></li>';
+                                }
+                                z++;
+                            }
+
+                        }
+                        html += '</ul>';
+                        html += '<a href="' + baseUrl + '/danh-sach-dong-gop">Xem chi tiết</a>';
+                        html += '</div>';
+                        html += '</div>';
+                        arrTotalCost[i] = totalCost;
+                    }
+                }
+                html += '</div>';
+                $('.box-support .box-support-right').html(html);
+                $('.box-support').show();
+                for (var i = 0; i < arrTotalCost.length; i++) {
+                    $('.numscroller_' + i).html(_self.formatCost(arrTotalCost[i])).attr({
+                        'data-min': 1000000,
+                        'data-max': arrTotalCost[i],
+                        'data-delay': 5,
+                        'data-increment': 1000000
+                    });
+                    $('.currency-symbol_' + i).show();
+                }
+            } else if (page == 'detail') {
+                var html = '';
+                var arrTotalCost = [];
+                arrDatetime.reverse();
+                for (var i = 0; i <= arrDatetime.length; i++) {
+                    var totalCost = 0;
+                    var timeItem = arrDatetime[i];
+                    if (typeof(timeItem) != 'undefined') {
+                        var nameItems = arrName[timeItem];
+                        var costItems = arrCost[timeItem];
+                        html += '<div class="box-support-list">';
+                        html += '<div class="box-support-list-top clearfix">';
+                        html += '<span class="date">Ngày ' + timeItem + '</span>';
+                        html += '<span class="currency-symbol currency-symbol_' + i + '" style="display:none;">đ</span>';
+                        html += '<span class="numscroller numscroller_' + i + '"></span>';
+                        html += '</div>';
+                        html += '<div class="table-responsive">';
+                        html += '<table class="table table-hover">';
+                        html += '<tbody>';
+                        for (var j = nameItems.length; j >= 0; j--) {
+                            if (typeof(nameItems[j]) != 'undefined' && typeof(costItems[j]) != 'undefined') {
+                                if (typeof(nameItems[j]) != 'undefined' || typeof(costItems[j]) != 'undefined') {
+                                    var cost = costItems[j].replace(/\./g, '');
+                                    cost = cost.replace('đ', '');
+                                    cost = parseInt(cost.trim());
+                                    totalCost += cost;
+                                }
+                                html += '<tr>';
+                                html += '<td>' + (j + 1) + '</td>';
+                                if (nameItems[j].indexOf('|') > -1) {
+                                    var nameItem = nameItems[j].split('|');
+                                    html += '<td style="text-align: left;"><strong>' + nameItem[0] + '</strong></td>';
+                                    html += '<td><span>' + nameItem[1] + '</span></td>';
+                                } else {
+                                    html += '<td style="text-align: left;"><strong>' + nameItems[j] + '</strong></td>';
+                                    html += '<td></td>';
+                                }
+                                html += '<td><span>' + costItems[j] + '</span></td>';
+                                html += '</tr>';
+                            }
+                        }
+                        html += '</tbody>';
+                        html += '</table>';
+                        html += '</div>';
+                        html += '</div>';
+                        arrTotalCost[i] = totalCost;
+                    }
+                }
+                $('#box-support-details').html(html).show();
+                for (var i = 0; i < arrTotalCost.length; i++) {
+                    $('.numscroller_' + i).html(_self.formatCost(arrTotalCost[i])).attr({
+                        'data-min': 1000000,
+                        'data-max': arrTotalCost[i],
+                        'data-delay': 5,
+                        'data-increment': 1000000
+                    });
+                    $('.currency-symbol_' + i).show();
+                }
+            } else if (page == 'mobile_detail') {
+                var html = '';
+                var arrTotalCost = [];
+                arrDatetime.reverse();
+                for (var i = 0; i <= arrDatetime.length; i++) {
+                    var totalCost = 0;
+                    var timeItem = arrDatetime[i];
+                    if (typeof(timeItem) != 'undefined') {
+                        var nameItems = arrName[timeItem];
+                        var costItems = arrCost[timeItem];
+                        html += '<div class="box-support-list box-sidebar">';
+                        html += '<div class="box-support-list-top clearfix">';
+                        html += '<span class="date">Ngày ' + timeItem + '</span>';
+                        html += '<span class="currency-symbol currency-symbol_' + i + '" style="display:none;">đ</span>';
+                        html += '<span class="numscroller numscroller_' + i + '"></span>';
+                        html += '</div>';
+                        html += '<ul>';
+                        for (var j = nameItems.length; j >= 0; j--) {
+                            if (typeof(nameItems[j]) != 'undefined' && typeof(costItems[j]) != 'undefined') {
+                                var cost = costItems[j].replace(/\./g, '');
+                                cost = cost.replace('đ', '');
+                                cost = parseInt(cost.trim());
+                                totalCost += cost;
+                                html += '<li>';
+                                if (nameItems[j].indexOf('|') > -1) {
+                                    var nameItem = nameItems[j].split('|');
+                                    html += '<strong>' + nameItem[0] + '</strong>';
+                                    html += '<p><span>' + nameItem[1] + '</span><span>' + costItems[j] + '</span></p>';
+                                } else {
+                                    html += '<strong>' + nameItems[j] + '</strong>';
+                                    html += '<p><span>' + costItems[j] + '</span></p>';
+                                }
+                                html += '</li>';
+                            }
+                        }
+                        html += '</ul>';
+                        html += '</div>';
+                        arrTotalCost[i] = totalCost;
+                    }
+                }
+                $('#box-support-details').html(html).show();
+                for (var i = 0; i < arrTotalCost.length; i++) {
+                    $('.numscroller_' + i).html(_self.formatCost(arrTotalCost[i])).attr({
+                        'data-min': 1000000,
+                        'data-max': arrTotalCost[i],
+                        'data-delay': 5,
+                        'data-increment': 1000000
+                    });
+                    $('.currency-symbol_' + i).show();
+                }
+            } else if (page == 'sidebar') {
+                var html = '<div class="box-support-list box-sidebar">';
+                html += '<h3>Danh sách ủng hộ</h3>';
+                arrDatetime.reverse();
+                html += '<ul>';
+                for (var i = 0; i <= arrDatetime.length; i++) {
+                    var timeItem = arrDatetime[i];
+                    if (typeof(timeItem) != 'undefined') {
+                        var nameItems = arrName[timeItem];
+                        var costItems = arrCost[timeItem];
+
+                        for (var j = 0; j <= nameItems.length; j++) {
+                            if (typeof(nameItems[j]) != 'undefined') {
+                                if (nameItems[j].indexOf('|') > -1) {
+                                    var nameItem = nameItems[j].split('|');
+                                    html += '<li><strong>' + nameItem[0] + '</strong><span>' + costItems[j] + '</span></li>';
+                                } else {
+                                    html += '<li><strong>' + nameItems[j] + '</strong><span>' + costItems[j] + '</span></li>';
+                                }
+                            }
+                        }
+
+                    }
+                }
+                html += '</ul>';
+                html += '<a href="' + baseUrl + '/danh-sach-dong-gop">Xem chi tiết</a>';
+                html += '</div>';
+                $('#box-support-sidebar').html(html).show();
+            }
+        });
+    },
+    loadPostByTermID: function () {
+        var self = this;
+        var $container = $('.load-post-of-term');
+        $container.click(function (e) {
+            if (!$(this).hasClass('loaded')) {
+                var term_id = $(this).data('termid');
+                var block_content = $(this).attr('href');
+                $.ajax({
+                    type: "get",
+                    // dataType: "json",
+                    url: ajaxurl,
+                    data: {action: "load_post_by_termid", term_id: term_id},
+                    success: function (response) {
+                        $('#menu-term_' + term_id).find('.bod .bod__list').html(response);
+                        self.showDetailNhanVat();
+                    },
+                    error: function (error) {
+                        console.log('error', error);
+                    }
+                });
+            }
+            $(this).addClass('loaded');
+        });
+    },
+    showDetailNhanVat: function () {
+        $('.bod__item').on('click', function () {
+            var pid = $(this).data('id');
+            $('.bod__item-detail').css('display', 'none');
+            $('#detail_' + pid).show();
+
+            $('.bod__item').removeClass('active');
+            $(this).addClass('active');
+        });
+        $('.bod__item-close').on('click', function () {
+            $('.bod__item-detail').css('display', 'none');
+        })
+    },
+    initChuongTrinh: function ($options) {
+        /*Hope.importScript($options.script_import, function () {
+
+         $('.gallery__item-img').magnificPopup({
+         type: 'image',
+         gallery: {
+         enabled: true
+         },
+         titleSrc: 'title'
+         });
+
+         $('.gallery__list').each(function () {
+         $(this).magnificPopup({
+         delegate: 'a',
+         type: 'image',
+         gallery: {
+         enabled: true,
+         navigateByImgClick: true
+         }
+         });
+         });
+         });*/
+
+        if ($('#gallery') !== null) {
+            Hope.importStyle(url_assets+'css/font-awesome.min.css');
+            Hope.importStyle(url_assets+'css/owl.carousel.min.css');
+            Hope.importStyle(url_assets+'css/bootstrap.min.css');
+
+            Hope.importScript($options.script_import, function () {
+                setTimeout(function(){ 
+                    $('.item-slide-gallery').click(function(){
+                        var id  = $(this).data('id');
+                        $('#' + id).click();
+                    })
+                }, 1000)
+
+                $('#gallery').lightGallery({
+                    videojs: true
+                });
+            });
+        }
+
+        var renderHtml = function (response) {
+            var xhtml = '';
+            $('#gallery_chuongtrinh .gallery__list').html('');
+            $.each(response, function (i, v) {
+                if (v.type == 'video') {
+                    xhtml += '<div class="gallery__item gallery__item--video" data-src="' + v.ifu + '">';
+                    xhtml += '<a class="gallery__item-img mfp-iframe" href="' + v.ifu + '" title="' + v.c + '">';
+                    xhtml += '<video controls src="' + v.it + '"></video></a>';
+                    xhtml += '<h4 class="gallery__item-title">' + v.cs + '</h4>';
+                    xhtml += '</div>';
+                } else {
+                    xhtml += '<div class="gallery__item" data-src="' + v.ifu + '">';
+                    xhtml += '<a class="gallery__item-img" title="' + v.c + '">';
+                    xhtml += '<img src="' + v.it + '" alt="' + v.c + '"></a>';
+                    xhtml += '<h4 class="gallery__item-title">' + v.cs + '</h4>';
+                    xhtml += '</div>';
+                }
+            });
+            
+            // $('#gallery_chuongtrinh .gallery__list').html(xhtml);
+            $('#gallery_chuongtrinh .gallery__list').replaceWith('<ul class="gallery__list" id="gallery">' + xhtml + '</ul>');
+            if ($('#gallery') !== null) {
+                Hope.importStyle(url_assets+'css/font-awesome.min.css');
+                Hope.importStyle(url_assets+'css/owl.carousel.min.css');
+                Hope.importStyle(url_assets+'css/bootstrap.min.css'); 
+                Hope.importScript($options.script_import, function () {
+                    $('#gallery_short .owl-stage-outer').lightGallery({
+                        videojs: true
+                    });
+                    $('#gallery').lightGallery({
+                        videojs: true
+                    });
+                });
+            }
+        };
+
+        paginationObject('pagination');
+        $('#pagination').pagination({
+            onChange: function (currentPage) {
+                var data_id = $.parseJSON($options.data_id_meta);
+                var list_id = data_id[currentPage];
+
+                if (typeof data_gallery_loaded[currentPage] != 'undefined' && data_gallery_loaded[currentPage]) {
+                    renderHtml(data_gallery_loaded[currentPage]);
+                } else {
+                    $.ajax({
+                        type: "get",
+                        url: ajaxurl,
+                        data: {
+                            action: "get_gallery_detail",
+                            list_id: list_id,
+                            post_id: $options.post_id
+                        },
+                        success: function (response) {
+                            var rp = $.parseJSON(response);
+                            if (rp.code && rp.data) {
+                                data_gallery_loaded[currentPage] = rp.data;
+                                renderHtml(rp.data);
+                            } else {
+                                renderHtml({});
+                            }
+                        }, error: function (error) {
+                            renderHtml({});
+                            console.log('error', error);
+                        }
+                    })
+                }
+            }
+        });
+    },
+    loadTinBoxNews: function ($options) {
+        var news_in_page = [], total = 0, load_init = false;
+        var flag = true;
+        var getData = function ($options, page) {
+            if (flag) {
+                flag = false;
+                $.ajax({
+                    type: "get",
+                    url: ajaxurl,
+                    data: {
+                        action: "get_news_in_chuongtrinh",
+                        page: page,
+                        post_id: $options.post_id
+                    },
+                    success: function (response) {
+                        var rp = $.parseJSON(response);
+                        var key = 'page_' + page;
+                        if (rp.code && rp.data) {
+                            news_in_page[key] = rp.data.html;
+                            total = rp.data.total;
+                        } else {
+                            news_in_page[key] = '';
+                            total = 0;
+                        }
+                        if (!load_init && (news_in_page[key] == '' || !news_in_page[key])) {
+                            var is_active = $('#menu_tintuc_chuongtrinh').closest('li').attr('class');
+                            if (is_active == 'active') {
+                                $('#menu_noidung_chuongtrinh').trigger('click');
+                            }
+                            $('#menu_tintuc_chuongtrinh').closest('li').hide();
+                        }
+
+                        $($options.pagination).attr('data-total-count', total);
+                        $($options.container).html(news_in_page[key]);
+                        flag = true;
+                        load_init = true;
+                    }, error: function (error) {
+                        flag = true;
+                        load_init = true;
+                    }
+                });
+            }
+        };
+        getData($options, 1);
+
+        var interval_cron = setInterval(function () {
+            if (load_init) {
+                clearInterval(interval_cron);
+
+                paginationObject('pagination_news');
+
+                $($options.pagination).pagination_news({
+                    onChange: function (currentPage) {
+                        var key = 'page_' + currentPage;
+                        if (typeof news_in_page[key] != 'undefined' && news_in_page[key]) {
+                            $($options.container).html(news_in_page[key]);
+                        } else {
+                            getData($options, currentPage);
+                        }
+                        $([document.documentElement, document.body]).animate({
+                            scrollTop: $("#tintuc_chuongtrinh").offset().top - 80
+                        }, 500);
+                    }
+                });
+            }
+        }, 1000);
+    }
+};
+
+/*!
+ * pajinatify - A light-weight pagination plugin for jQuery
+ *
+ * Copyright 2018, Mehdi Dehghani
+ * (http://www.github.com/dehghani-mehdi)
+ *
+ * @author   Mehdi Dehghani
+ * @license  MIT
+ *
+ */
+// ()(jQuery, window, document);
+var paginationObject = function (pluginName) {
+    //const pluginName = 'pajinatify';
+    const p = {},
+        // -- Globals (shared across all plugin instances)
+        defaults = {
+            onChange: null,
+            dir: 'ltr'
+        };
+    var _this;
+    // cau tru: ul -> li => a
+    var element_wrap_item = '<li/>';
+
+    p[pluginName] = class {
+        constructor(el, config) {
+            this.el = el;
+            this.$el = $(el);
+            this.config = $.extend({}, defaults, config);
+            this._defaults = defaults;
+            _this = this;
+            this.init();
+            this.wireEvents();
+        }
+
+        init() {
+            this.$el.addClass('pajinatify').addClass("pajinatify__" + this.config.dir);
+            var totalCount = this.$el.data('total-count'), take = this.$el.data('take');
+            this.CURRENT_PAGE = this.CURRENT_PAGE || 1;
+            this.TOTAL_PAGES = Math.floor(totalCount / take);
+            this.ID_PAGINATION = this.$el.attr('id');
+            if (totalCount % take != 0) this.TOTAL_PAGES++;
+            if (this.TOTAL_PAGES > 1)
+                this.$el.html(this.compute());
+            else
+                this.$el.empty();
+
+            console.log('_this', this.ID_PAGINATION)
+        }
+
+        wireEvents() {
+            $('body').on('click', '#' + pluginName + ' .pajinatify__button', function (e) {
+                e.preventDefault();
+                var page = +$(e.currentTarget).attr('data-page');
+                _this.CURRENT_PAGE = page;
+                _this.$el.data('current', _this.CURRENT_PAGE).html(_this.compute());
+                if (typeof _this.config.onChange === 'function') _this.config.onChange.call(_this.$el, _this.CURRENT_PAGE);
+                _this.$el.trigger('onChange', _this.CURRENT_PAGE);
+            });
+
+        };
+
+        compute() {
+            var delta = 1, range = [], html = [], l, page;
+            if (this.CURRENT_PAGE == this.TOTAL_PAGES) delta = 2;
+            if (this.CURRENT_PAGE == this.TOTAL_PAGES - 1) delta = 2;
+
+            if (this.CURRENT_PAGE == 1) delta = 2;
+            if (this.CURRENT_PAGE == 2) delta = 2;
+
+            range.push(1);
+            for (var i = this.CURRENT_PAGE - delta, len = this.CURRENT_PAGE + delta; i <= len; i++) {
+                if (i < this.TOTAL_PAGES && i > 1) {
+                    range.push(i);
+                }
+            }
+            if (this.TOTAL_PAGES != 1) range.push(this.TOTAL_PAGES);
+            if (this.CURRENT_PAGE != 1) {
+                page = +this.CURRENT_PAGE - 1; // push html prev
+            }
+
+            for (var i of range) {
+                if (l) {
+                    if (i - l === 2) {
+                        page = l + 1;
+                        html.push($(element_wrap_item, {
+                            class: 'pajinatify__button',
+                            attr: {'data-page': page},
+                            html: '<a href="javascript:;">' + page + '</a>'
+                        }));
+                    } else if (i - l !== 1) {
+                        html.push($(element_wrap_item, {
+                            html: '<a href="javascript:;">...</a>'
+                        }));
+                    }
+                }
+                page = i;
+                html.push($(element_wrap_item, {
+                    class: 'pajinatify__button' + (page == this.CURRENT_PAGE ? ' pajinatify__current active' : ''),
+                    attr: {'data-page': page},
+                    html: '<a href="javascript:;">' + page + '</a>'
+                }));
+                l = i;
+            }
+
+            if (this.CURRENT_PAGE != this.TOTAL_PAGES) {
+                page = +this.CURRENT_PAGE + 1; // push html next
+            }
+            return html;
+        };
+    }
+
+    var destroy = function ($el) {
+        if (!$el.is('div')) return;
+        $el.removeClass('pajinatify').empty();
+        $.removeData($el[0], 'plugin_' + pluginName);
+    };
+
+    var set = function ($el, currentPage, totalCount) {
+        _this.CURRENT_PAGE = currentPage || _this.CURRENT_PAGE;
+        var take = -1;
+        if (totalCount) {
+            take = $el.data('take');
+            _this.TOTAL_PAGES = Math.floor(totalCount / take);
+            if (totalCount % take != 0) _this.TOTAL_PAGES++;
+        }
+        _this.$el.html(_this.compute());
+    };
+
+    $.fn[pluginName] = function (options) {
+        if (typeof options === 'string') {
+            switch (options) {
+                case 'destroy':
+                    destroy(this);
+                    break;
+                case 'set':
+                    set(this, arguments[1], arguments[2]);
+                    break;
+            }
+            return this;
+        }
+        return this.each(function () {
+            if (!$.data(this, 'plugin_' + pluginName)) {
+                $.data(this, 'plugin_' + pluginName, new p[pluginName](this, options));
+            }
+        });
+    };
+}
+
+/*
+ (function ($, window, document, undefined) {
+ const pluginName = 'pajinatify',
+ p = {},
+ // -- Globals (shared across all plugin instances)
+ defaults = {
+ onChange: null,
+ dir: 'ltr'
+ };
+ var _this;
+ // cau tru: ul -> li => a
+ var element_wrap_item = '<li/>';
+
+ p[pluginName] = class {
+ constructor(el, config) {
+ this.el = el;
+ this.$el = $(el);
+ this.config = $.extend({}, defaults, config);
+ this._defaults = defaults;
+ _this = this;
+ this.init();
+ this.wireEvents();
+ }
+
+ init() {
+ this.$el.addClass('pajinatify').addClass("pajinatify__" + this.config.dir);
+ var totalCount = this.$el.data('total-count'), take = this.$el.data('take');
+ this.CURRENT_PAGE = this.CURRENT_PAGE || 1;
+ this.TOTAL_PAGES = Math.floor(totalCount / take);
+ this.ID_PAGINATION = this.$el.attr('id');
+ if (totalCount % take != 0) this.TOTAL_PAGES++;
+ if (this.TOTAL_PAGES > 1)
+ this.$el.html(this.compute());
+ else
+ this.$el.empty();
+
+ console.log('_this', this.ID_PAGINATION)
+ }
+
+ wireEvents() {
+ $('body').on('click', '.pajinatify__button', function (e) {
+ e.preventDefault();
+ var page = +$(e.currentTarget).attr('data-page');
+ _this.CURRENT_PAGE = page;
+ _this.$el.data('current', _this.CURRENT_PAGE).html(_this.compute());
+ if (typeof _this.config.onChange === 'function') _this.config.onChange.call(_this.$el, _this.CURRENT_PAGE);
+ _this.$el.trigger('onChange', _this.CURRENT_PAGE);
+ });
+
+ };
+
+ compute() {
+ var delta = 1, range = [], html = [], l, page;
+ if (this.CURRENT_PAGE == this.TOTAL_PAGES) delta = 2;
+ if (this.CURRENT_PAGE == this.TOTAL_PAGES - 1) delta = 2;
+
+ if (this.CURRENT_PAGE == 1) delta = 2;
+ if (this.CURRENT_PAGE == 2) delta = 2;
+
+ range.push(1);
+ for (var i = this.CURRENT_PAGE - delta, len = this.CURRENT_PAGE + delta; i <= len; i++) {
+ if (i < this.TOTAL_PAGES && i > 1) {
+ range.push(i);
+ }
+ }
+ if (this.TOTAL_PAGES != 1) range.push(this.TOTAL_PAGES);
+ if (this.CURRENT_PAGE != 1) {
+ page = +this.CURRENT_PAGE - 1; // push html prev
+ }
+
+ for (var i of range) {
+ if (l) {
+ if (i - l === 2) {
+ page = l + 1;
+ html.push($(element_wrap_item, {
+ class: 'pajinatify__button',
+ attr: {'data-page': page},
+ html: '<a href="javascript:;">' + page + '</a>'
+ }));
+ } else if (i - l !== 1) {
+ html.push($(element_wrap_item, {
+ html: '<a href="javascript:;">...</a>'
+ }));
+ }
+ }
+ page = i;
+ html.push($(element_wrap_item, {
+ class: 'pajinatify__button' + (page == this.CURRENT_PAGE ? ' pajinatify__current active' : ''),
+ attr: {'data-page': page},
+ html: '<a href="javascript:;">' + page + '</a>'
+ }));
+ l = i;
+ }
+
+ if (this.CURRENT_PAGE != this.TOTAL_PAGES) {
+ page = +this.CURRENT_PAGE + 1; // push html next
+ }
+ return html;
+ };
+ }
+
+ var destroy = function ($el) {
+ if (!$el.is('div')) return;
+ $el.removeClass('pajinatify').empty();
+ $.removeData($el[0], 'plugin_' + pluginName);
+ };
+
+ var set = function ($el, currentPage, totalCount) {
+ _this.CURRENT_PAGE = currentPage || _this.CURRENT_PAGE;
+ var take = -1;
+ if (totalCount) {
+ take = $el.data('take');
+ _this.TOTAL_PAGES = Math.floor(totalCount / take);
+ if (totalCount % take != 0) _this.TOTAL_PAGES++;
+ }
+ _this.$el.html(_this.compute());
+ };
+
+ $.fn[pluginName] = function (options) {
+ if (typeof options === 'string') {
+ switch (options) {
+ case 'destroy':
+ destroy(this);
+ break;
+ case 'set':
+ set(this, arguments[1], arguments[2]);
+ break;
+ }
+ return this;
+ }
+ return this.each(function () {
+ if (!$.data(this, 'plugin_' + pluginName)) {
+ $.data(this, 'plugin_' + pluginName, new p[pluginName](this, options));
+ }
+ });
+ };
+ })(jQuery, window, document);*/

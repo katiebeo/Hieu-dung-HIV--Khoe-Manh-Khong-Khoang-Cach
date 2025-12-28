@@ -1,0 +1,778 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Tổng quan chiến dịch HIV — Long Châu</title>
+
+  <style>
+    :root{
+      --blue-main: #0047BA;
+      --blue-light:#EAF1FF;
+      --red-accent:#D62828;
+      --white:#FFFFFF;
+      --text-dark:#1F2937;
+      --text-gray:#4B5563;
+      --line:#E5E7EB;
+      --card:#FAFBFF;
+    }
+
+    *{ margin:0; padding:0; box-sizing:border-box; font-family: Arial, sans-serif; }
+    body{ background: var(--white); color: var(--text-dark); }
+
+    /* ===== HEADER (Long Châu) ===== */
+    header, header * { box-sizing: border-box; font-family: Arial, sans-serif; }
+
+    header {
+      display: flex;
+      align-items: center;
+      gap: 60px;
+      padding: 12px 40px;
+      border-bottom: 1px solid #e0e0e0;
+      background: #fff;
+      position: sticky;
+      top: 0;
+      z-index: 999;
+    }
+
+    .logo {
+      font-size: 22px;
+      font-weight: bold;
+      color: #0047ba;
+      white-space: nowrap;
+    }
+    .logo a { color: inherit; text-decoration: none; }
+    .logo img {
+      height: 50px;        /* adjust as needed */
+      width: auto;
+      display: block;
+    }
+    nav {
+      display: flex;
+      gap: 50px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .nav-item {
+      position: relative;
+      font-size: 18px;
+      color: #0047ba;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: 500;
+      white-space: nowrap;
+    }
+
+    .nav-item > a {
+      color: inherit;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .nav-item:hover > a { text-decoration: underline; }
+    .arrow { font-size: 10px; }
+
+    .dropdown {
+      position: absolute;
+      top: 120%;
+      left: 0;
+      background-color: #fff;
+      border: 1px solid #e0e0e0;
+      min-width: 190px;
+      display: none;
+      flex-direction: column;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+      z-index: 1000;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .dropdown a {
+      padding: 10px 14px;
+      text-decoration: none;
+      color: #0047ba;
+      font-size: 13px;
+      white-space: nowrap;
+    }
+
+    .dropdown a:hover { background-color: #f5f7fa; }
+    .nav-item:hover .dropdown { display: flex; }
+
+    @media (max-width: 900px) {
+      header { padding: 12px 16px; gap: 16px; }
+      nav {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        gap: 18px;
+        padding-bottom: 4px;
+        -webkit-overflow-scrolling: touch;
+      }
+    }
+
+    /* ===== BIG BANNER ===== */
+    .big-banner{
+      width: 100%;
+      min-height: 320px;
+      background:
+        linear-gradient(
+          rgba(0,71,186,0.65),
+          rgba(0,71,186,0.65)
+        ),
+        url("https://images.unsplash.com/photo-1584515933487-779824d29309?q=80&w=1920&auto=format&fit=crop");
+      background-size: cover;
+      background-position: center;
+      display: flex;
+      align-items: center;
+    }
+
+    .big-banner .banner-content{
+      max-width: 1500px;
+      margin: 0 auto;
+      padding: 40px 18px;
+      color: #fff;
+    }
+
+    .big-banner h1{
+      font-size: clamp(55px, 4vw, 52px);
+      font-weight: 700;
+      line-height: 1.15;
+    }
+
+    .big-banner p{
+      margin-top: 14px;
+      font-size: 18px;
+      max-width: 70ch;
+      line-height: 1.7;
+      opacity: 0.95;
+    }
+
+    /* ===== PAGE GRID (LEFT CONTENT + RIGHT CHAT) ===== */
+    .page-grid{
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 28px 18px 60px;
+      display: grid;
+      grid-template-columns: 1fr 360px;
+      gap: 18px;
+      align-items: start;
+    }
+
+    @media (max-width: 980px){
+      .page-grid{ grid-template-columns: 1fr; }
+    }
+
+    /* ===== LEFT CONTENT STYLES ===== */
+    .hero{
+      margin-top: 18px;
+      padding: 18px 18px;
+      border: 1px solid #D9E6FF;
+      background: linear-gradient(180deg, var(--blue-light), #ffffff);
+      border-radius: 14px;
+    }
+    .hero h1{
+      font-size: clamp(30px, 3.6vw, 44px);
+      color: var(--blue-main);
+      letter-spacing: .2px;
+      line-height: 1.15;
+    }
+    .hero p{
+      margin-top: 10px;
+      color: var(--text-gray);
+      max-width: 80ch;
+      font-size: 16px;
+      line-height: 1.75;
+    }
+
+    .section{
+      margin-top: 28px;
+      padding-bottom: 26px;
+      border-bottom: 1px solid var(--line);
+    }
+    .section h2{
+      font-size: 22px;
+      color: var(--blue-main);
+      margin-bottom: 10px;
+      line-height: 1.25;
+    }
+    .section p{
+      color: var(--text-gray);
+      line-height: 1.85;
+      margin-top: 10px;
+    }
+
+    .soft-box{
+      margin-top: 14px;
+      background: var(--blue-light);
+      border: 1px solid #D9E6FF;
+      border-radius: 12px;
+      padding: 14px 16px;
+      color: var(--text-dark);
+      line-height: 1.75;
+    }
+    .soft-box strong{ color: var(--blue-main); }
+
+    .cards{
+      margin-top: 14px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+    @media (max-width: 860px){
+      .cards{ grid-template-columns: 1fr; }
+    }
+
+    .card{
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: var(--card);
+      padding: 14px 16px;
+    }
+    .card .icon{
+      width: 38px; height: 38px;
+      border-radius: 10px;
+      display:grid; place-items:center;
+      background: var(--blue-light);
+      color: var(--blue-main);
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
+    .card h3{
+      font-size: 16px;
+      color: var(--text-dark);
+      line-height: 1.3;
+    }
+    .card p{
+      margin-top: 8px;
+      color: var(--text-gray);
+      line-height: 1.7;
+      font-size: 14px;
+    }
+
+    .quote{
+      margin-top: 14px;
+      border-left: 4px solid var(--blue-main);
+      background: #F7FAFF;
+      padding: 12px 14px;
+      border-radius: 10px;
+      color: var(--text-gray);
+      line-height: 1.8;
+    }
+
+    footer{
+      margin-top: 22px;
+      color: #6B7280;
+      font-size: 13px;
+      text-align: center;
+    }
+
+  /* ===== FOOTER LIÊN HỆ (Long Châu style) ===== */
+.lc-footer{
+  margin-top: 28px;
+  background: #F7FAFF;
+  border-top: 1px solid var(--line);
+}
+
+.lc-footer__wrap{
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 22px 18px 14px;
+}
+
+.lc-footer__grid{
+  display: grid;
+  grid-template-columns: 1.3fr 1fr 1fr 1.2fr;
+  gap: 16px;
+  align-items: start;
+}
+
+.lc-footer__title{
+  font-size: 16px;
+  color: var(--blue-main);
+  margin-bottom: 10px;
+}
+
+.lc-footer__subtitle{
+  font-size: 14px;
+  color: var(--text-dark);
+  margin-bottom: 8px;
+  line-height: 1.35;
+}
+
+.lc-footer__item{
+  color: var(--text-gray);
+  font-size: 14px;
+  line-height: 1.7;
+  margin-top: 6px;
+}
+
+.lc-footer__label{
+  font-weight: 700;
+  color: var(--text-dark);
+  margin-right: 6px;
+}
+
+.lc-footer__link{
+  color: var(--blue-main);
+  text-decoration: none;
+  font-weight: 600;
+}
+.lc-footer__link:hover{ text-decoration: underline; }
+
+.lc-footer__hotline{
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid #D9E6FF;
+  background: #FFFFFF;
+  color: var(--blue-main);
+  text-decoration: none;
+  font-weight: 800;
+  width: fit-content;
+}
+.lc-footer__hotline:hover{
+  background: var(--blue-light);
+}
+
+.lc-footer__bottom{
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px dashed #D9E6FF;
+  color: #6B7280;
+  font-size: 13px;
+  line-height: 1.7;
+  text-align: center;
+}
+
+/* Responsive */
+@media (max-width: 980px){
+  .lc-footer__grid{
+    grid-template-columns: 1fr 1fr;
+  }
+}
+@media (max-width: 560px){
+  .lc-footer__grid{
+    grid-template-columns: 1fr;
+  }
+  .lc-footer__hotline{
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+
+    /* ===== RIGHT AI CHAT SIDEBAR ===== */
+    .ai-card{
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: #fff;
+      position: sticky;
+      top: 92px; /* tránh header sticky */
+      padding: 12px;
+    }
+
+    .ai-card h3{
+      margin: 0 0 10px;
+      font-size: 16px;
+      color: var(--blue-main);
+    }
+
+    .ai-chatbox{
+      display:flex;
+      flex-direction:column;
+      height: 520px;
+      gap:10px;
+    }
+
+    .ai-chatlog{
+      flex:1;
+      overflow:auto;
+      padding:10px;
+      border:1px solid var(--line);
+      border-radius:12px;
+      background: #F8FAFF;
+    }
+
+    .ai-msg{
+      max-width: 90%;
+      padding:10px 12px;
+      border-radius:12px;
+      margin:8px 0;
+      line-height:1.45;
+      font-size: 14px;
+      border:1px solid var(--line);
+    }
+
+    .ai-msg.user{
+      margin-left:auto;
+      background: #EAF1FF;
+    }
+
+    .ai-msg.bot{
+      background: #FFFFFF;
+    }
+
+    .ai-meta{
+      font-size:12px;
+      color: var(--text-gray);
+      margin-top: 6px;
+      line-height: 1.4;
+    }
+
+    .ai-chips{display:flex; gap:8px; flex-wrap:wrap; margin-top:10px}
+    .ai-chip{
+      font-size:12px;
+      padding:7px 9px;
+      border-radius:999px;
+      border:1px solid var(--line);
+      cursor:pointer;
+      color: var(--text-dark);
+      background:#fff;
+    }
+
+    .ai-inputbar{
+      display:flex;
+      gap:8px;
+    }
+
+    .ai-inputbar input{
+      width:100%;
+      padding:10px 12px;
+      border-radius:12px;
+      border:1px solid var(--line);
+      outline:none;
+    }
+
+    .ai-btn{
+      padding:10px 12px;
+      border-radius:12px;
+      border:1px solid var(--line);
+      background:#fff;
+      cursor:pointer;
+      font-weight:600;
+      white-space:nowrap;
+    }
+
+    .ai-btn.primary{
+      border-color:#BFD4FF;
+      background: var(--blue-light);
+    }
+
+    .ai-btn.danger{
+      border-color:#FFD0D0;
+      background:#FFF5F5;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- HEADER -->
+  <header>
+          <div class="logo">
+    <a href="index.html">
+      <img src="pic/longchau.png" alt="Nhà Thuốc Long Châu Logo">
+    </a>
+  </div>
+
+    <nav>
+      <div class="nav-item"><a href="hivlagi.html">Hiểu đúng về HIV</a></div>
+      <div class="nav-item"><a href="laynhiem.html">Đường lây và Dấu hiệu</a></div>
+      <div class="nav-item"><a href="phongngua.html">Phòng ngừa &amp; Xét nghiệm</a></div>
+      <div class="nav-item"><a href="prep-pep.html">PrEP &amp; PEP</a></div>
+      <div class="nav-item"><a href="xet_nghiem.html">Xét nghiệm HIV</a></div>
+      <div class="nav-item"><a href="dieu_tri.html">Điều trị HIV</a></div>
+      <div class="nav-item"><a href="faq.html">FAQ</a></div>
+    </nav>
+  </header>
+
+  <!-- BIG BANNER -->
+  <section class="big-banner">
+    <div class="banner-content">
+      <h1>Hiểu đúng về HIV - Khỏe Mạnh Không Khoảng Cách</h1>
+      <p>
+        Long Châu đồng hành cùng cộng đồng trong hành trình nâng cao nhận thức,
+        khuyến khích phòng ngừa chủ động và tiếp cận điều trị HIV an toàn – nhân văn.
+      </p>
+    </div>
+  </section>
+
+  <!-- MAIN (2 columns) -->
+  <main class="page-grid">
+
+    <!-- LEFT: CONTENT -->
+    <div class="main-content">
+      <section class="hero">
+        <h1>Tổng quan chiến dịch HIV của Long Châu</h1>
+        <p>
+          HIV/AIDS không chỉ là vấn đề y tế mà còn là vấn đề xã hội gắn liền với định kiến, kỳ thị và sự thiếu hụt thông tin chính xác.
+          Chiến dịch hướng tới truyền thông nhân văn, dễ tiếp cận và không kỳ thị, giúp cộng đồng hiểu đúng và chủ động bảo vệ sức khỏe.
+        </p>
+         
+      </section>
+      <p></p>
+      <img src="pic/a11.png" alt="bảo vệ chính bạn và gia đình">
+      <section class="section" id="tong-quan">
+        <h2>Bối cảnh </h2>
+        <p>
+          HIV/AIDS không chỉ là một vấn đề y tế mà còn là một vấn đề xã hội gắn liền với định kiến, kỳ thị và sự thiếu hụt thông tin chính xác.
+          Tại Việt Nam, dù các chương trình phòng, chống HIV/AIDS đã đạt được nhiều kết quả tích cực, nhận thức sai lệch về HIV vẫn còn tồn tại phổ biến,
+          đặc biệt trong giới trẻ. Điều này dẫn đến tâm lý e ngại xét nghiệm, chậm tiếp cận điều trị và vô tình làm gia tăng nguy cơ lây nhiễm trong cộng đồng.
+        </p>
+        <p>
+          Trước thực trạng đó, việc xây dựng một nền tảng truyền thông số cung cấp kiến thức đúng đắn, dễ tiếp cận và không kỳ thị về HIV là cần thiết
+          nhằm thúc đẩy thay đổi nhận thức và hành vi của người dân.
+        </p>
+
+        <div class="quote">
+          “Truyền thông đúng giúp giảm sợ hãi – tăng chủ động xét nghiệm – tiếp cận điều trị sớm – và giảm nguy cơ lây nhiễm trong cộng đồng.”
+        </div><p></p>
+        <img src="pic/a1.png" alt="bảo vệ chính bạn và gia đình">
+      </section>
+
+      <section class="section" id="dinh-huong">
+        <h2>Định hướng chiến dịch</h2>
+        <p>
+          Chiến dịch HIV của Long Châu được triển khai với định hướng lấy người dùng làm trung tâm, tập trung vào việc phổ cập kiến thức đúng đắn về HIV,
+          khuyến khích phòng ngừa chủ động và hỗ trợ người dân tiếp cận các dịch vụ y tế an toàn, bảo mật.
+        </p>
+        <p>
+          Thay vì tiếp cận HIV như một chủ đề mang tính cảnh báo hay răn đe, Long Châu lựa chọn hướng truyền thông nhân văn, thực tế,
+          giúp HIV được nhìn nhận như một bệnh mạn tính có thể kiểm soát nếu được phát hiện sớm và điều trị đúng cách.
+        </p>
+
+        <div class="soft-box">
+          <strong>Thông điệp cốt lõi:</strong> HIV có thể kiểm soát như bệnh mạn tính nếu phát hiện sớm và điều trị đúng cách — tiếp cận thông tin đúng là bước đầu tiên.
+        </div>
+      </section>
+
+      <section class="section" id="ket-hop-dich-vu">
+        <h2>Kết hợp truyền thông giáo dục & dịch vụ y tế thực tế</h2>
+        <p>
+          Một trong những điểm nổi bật của chiến dịch là việc kết hợp giữa truyền thông giáo dục và khả năng tiếp cận dịch vụ y tế thực tế. Thông qua hệ thống nhà thuốc phủ rộng trên toàn quốc, 
+          Long Châu đóng vai trò là cầu nối giữa người dân và các dịch vụ liên quan đến HIV như tư vấn xét nghiệm, cung cấp thông tin về PrEP, PEP và thuốc ARV theo hướng dẫn của Bộ Y tế. 
+        </p>
+        <p>
+          Điều này giúp giảm đáng kể rào cản tiếp cận, đặc biệt đối với những nhóm đối tượng còn e ngại khi đến các cơ sở y tế chuyên biệt.
+        </p>
+
+        <div class="cards">
+          <div class="card">
+            <div class="icon">📚</div>
+            <h3>Giáo dục dễ tiếp cận</h3>
+            <p>Nội dung rõ ràng, chuẩn xác, thân thiện — giúp người dùng hiểu đúng về HIV và các biện pháp phòng ngừa.</p>
+          </div>
+
+          <div class="card">
+            <div class="icon">🧪</div>
+            <h3>Kết nối xét nghiệm & tư vấn</h3>
+            <p>Khuyến khích xét nghiệm sớm, cung cấp thông tin và hướng dẫn tiếp cận dịch vụ an toàn, bảo mật.</p>
+          </div>
+
+          <div class="card">
+            <div class="icon">💊</div>
+            <h3>Thông tin PrEP/PEP/ARV</h3>
+            <p>Giới thiệu đúng về PrEP, PEP và thuốc ARV theo hướng dẫn y tế — giúp người dân chủ động phòng ngừa và điều trị.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="giam-ky-thi" style="border-bottom:none; padding-bottom:0;">
+        <h2>Giảm kỳ thị & xây dựng môi trường thân thiện</h2>
+        <p>
+          Bên cạnh đó, chiến dịch HIV của Long Châu còn chú trọng vào giảm kỳ thị và phân biệt đối xử với người nhiễm HIV.
+          Thông qua các nội dung truyền thông trên nền tảng số và tại điểm bán, chiến dịch từng bước phá bỏ những hiểu lầm phổ biến như
+          HIV dễ lây qua tiếp xúc thông thường hay người nhiễm HIV không thể sống khỏe mạnh.
+        </p>
+        <p>
+          Cách tiếp cận này góp phần xây dựng một môi trường xã hội thân thiện hơn, nơi người nhiễm HIV có thể tiếp cận điều trị và chăm sóc sức khỏe
+          mà không bị phán xét.
+        </p>
+
+        <div class="soft-box">
+          <strong>Mục tiêu xã hội:</strong> Xóa bỏ hiểu lầm — giảm kỳ thị — tăng tiếp cận điều trị — nâng cao chất lượng sống cho người nhiễm HIV.
+        </div>
+      </section>
+
+
+    </div>
+
+
+
+
+    <!-- RIGHT: AI CHATBOX -->
+    <aside class="ai-card">
+      <h3>Chatbot (AI) ẩn danh</h3>
+
+      <div class="ai-chatbox">
+        <div class="ai-chatlog" id="aiChatlog">
+          <div class="ai-msg bot">
+            Chào bạn 👋 Mình có thể hỗ trợ nhanh về HIV, xét nghiệm, ARV, PrEP/PEP…
+            <div class="ai-meta">Ẩn danh • Bạn có thể bấm “Xoá chat” bất kỳ lúc nào.</div>
+          </div>
+
+          <div class="ai-msg bot">
+            Bạn muốn hỏi gì trước?
+            <div class="ai-chips" id="aiChips">
+              <span class="ai-chip">Khi nào nên xét nghiệm HIV?</span>
+              <span class="ai-chip">ARV có tác dụng phụ không?</span>
+              <span class="ai-chip">Quên uống ARV thì sao?</span>
+              <span class="ai-chip">PEP/PrEP là gì?</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="ai-inputbar">
+          <input type="text" id="aiUserInput" placeholder="Nhập câu hỏi (ẩn danh)..." />
+          <button class="ai-btn primary" id="aiSendBtn">Gửi</button>
+          <button class="ai-btn danger" id="aiClearBtn" title="Xoá lịch sử chat">Xoá</button>
+        </div>
+
+        <div class="ai-meta">
+          ⚠️ Trường hợp khẩn cấp: hãy gọi hotline hoặc đến cơ sở y tế gần nhất.
+        </div>
+      </div>
+    </aside>
+
+  </main>
+
+ <script>
+  const aiChatlog = document.getElementById("aiChatlog");
+  const aiUserInput = document.getElementById("aiUserInput");
+  const aiSendBtn = document.getElementById("aiSendBtn");
+  const aiClearBtn = document.getElementById("aiClearBtn");
+  const aiChips = document.getElementById("aiChips");
+
+  // ✅ Lưu lại giao diện ban đầu (welcome + chips)
+  const aiInitialChatHTML = aiChatlog.innerHTML;
+
+  function aiAppendMessage(text, who="bot"){
+    const div = document.createElement("div");
+    div.className = `ai-msg ${who}`;
+    div.innerHTML = text;
+    aiChatlog.appendChild(div);
+    aiChatlog.scrollTop = aiChatlog.scrollHeight;
+  }
+
+  function aiSafeText(s){
+    return (s || "").replace(/[&<>"']/g, m => ({
+      "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"
+    }[m]));
+  }
+
+  function aiFakeReply(q){
+    const question = (q || "").toLowerCase();
+
+    if(question.includes("pep") || question.includes("prep")){
+      return `
+        <b>PEP</b> dùng <b>sau phơi nhiễm</b> (càng sớm càng tốt, thường trong <b>72 giờ</b>).
+        <b>PrEP</b> là thuốc <b>dự phòng trước phơi nhiễm</b>.<br/>
+        Bạn muốn mình hỏi thêm: “Phơi nhiễm xảy ra khi nào?” để gợi ý bước tiếp theo không?
+      `;
+    }
+
+    if(question.includes("arv") || question.includes("thuốc")){
+      return `
+        Với <b>ARV</b>, ưu tiên lớn nhất là <b>uống đúng giờ và đều</b>.
+        Nếu có tác dụng phụ, nhiều trường hợp sẽ giảm dần nhưng vẫn cần theo dõi.<br/>
+        Bạn đang dùng ARV được bao lâu rồi?
+      `;
+    }
+
+    if(question.includes("xét nghiệm") || question.includes("test") || question.includes("bao lâu")){
+      return `
+        Thời điểm xét nghiệm phụ thuộc loại test (nhanh, combo Ag/Ab, NAT) và thời điểm phơi nhiễm.
+        Có “cửa sổ” cần đủ ngày để kết quả tin cậy.<br/>
+        Bạn nghi phơi nhiễm cách đây bao lâu?
+      `;
+    }
+
+    return `
+      Mình hiểu câu hỏi của bạn. Bạn có thể cho mình thêm 1 chi tiết (thời điểm xảy ra, bạn đang lo về điều gì nhất)
+      để mình gợi ý sát hơn nhé.
+    `;
+  }
+
+  function aiSend(){
+    const text = aiUserInput.value.trim();
+    if(!text) return;
+
+    aiAppendMessage(aiSafeText(text), "user");
+    const reply = aiFakeReply(text);
+    aiAppendMessage(reply + `<div class="ai-meta">Gợi ý: nếu khẩn cấp, hãy gọi hotline/đến cơ sở y tế.</div>`, "bot");
+
+    aiUserInput.value = "";
+    aiUserInput.focus();
+  }
+
+  aiSendBtn.addEventListener("click", aiSend);
+  aiUserInput.addEventListener("keydown", (e) => {
+    if(e.key === "Enter") aiSend();
+  });
+
+  // ✅ Xoá lịch sử nhưng hiện lại welcome + chips như hình bạn gửi
+  aiClearBtn.addEventListener("click", () => {
+    aiChatlog.innerHTML = aiInitialChatHTML;
+
+    // vì aiChips lấy từ DOM cũ, phải gắn lại event bằng cách dùng delegation trực tiếp trên aiChatlog
+    aiChatlog.scrollTop = aiChatlog.scrollHeight;
+    aiUserInput.value = "";
+    aiUserInput.focus();
+  });
+
+  // ✅ Dùng delegation để chip luôn hoạt động kể cả sau khi reset innerHTML
+  aiChatlog.addEventListener("click", (e) => {
+    if(!e.target.classList.contains("ai-chip")) return;
+    aiUserInput.value = e.target.textContent;
+    aiSend();
+  });
+</script>
+<!-- FOOTER LIÊN HỆ -->
+<footer class="lc-footer" id="lien-he">
+  <div class="lc-footer__wrap">
+    <div class="lc-footer__grid">
+      <div class="lc-footer__col">
+        <div class="lc-footer__item"></div>
+
+        <div class="lc-footer__item">
+          <span class="lc-footer__label">Email:</span>
+          <a class="lc-footer__link" href="mailto:sale@nhathuoclongchau.com.vn">
+            sale@nhathuoclongchau.com.vn
+          </a>
+        </div>
+
+        <div class="lc-footer__item">
+          <span class="lc-footer__label">TỔNG ĐÀI (8:00-22:00)</span>
+        </div>
+      </div>
+
+      <div class="lc-footer__col">
+        <h4 class="lc-footer__subtitle">Tư vấn mua hàng  (Nhánh 1)</h4>
+        <a class="lc-footer__hotline" href="tel:18006928">1800 6928</a>
+      </div>
+
+      <div class="lc-footer__col">
+        <h4 class="lc-footer__subtitle">Trung tâm Vắc xin (Nhánh 2)</h4>
+        <a class="lc-footer__hotline" href="tel:18006928">1800 6928</a>
+      </div>
+
+      <div class="lc-footer__col">
+        <h4 class="lc-footer__subtitle">Góp ý, khiếu nại và tiếp nhận cảnh báo thông tin vi phạm (Nhánh 3)</h4>
+        <a class="lc-footer__hotline" href="tel:18006928">1800 6928</a>
+      </div>
+    </div>
+
+    <div class="lc-footer__bottom">
+      <p>
+        Nội dung mang tính giáo dục &amp; truyền thông sức khỏe. Không kỳ thị – tôn trọng – hỗ trợ người nhiễm HIV.
+      </p>
+    </div>
+  </div>
+</footer>
+</body>
+</html>
